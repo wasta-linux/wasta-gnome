@@ -1,3 +1,9 @@
+wasta-gnome-focal (0.1.14) focal; urgency=medium
+
+  * Build from new repo.
+
+ -- Nate Marti <nate_marti@sil.org>  Sat, 25 Sep 2021 06:17:03 +0100
+
 wasta-gnome-focal (0.1.13) focal; urgency=medium
 
   * Disable hot corners by default.
