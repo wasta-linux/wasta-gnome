@@ -1,4 +1,7 @@
-- [ ] Test using "runuser $USER -- command..." instead of "sudo --user=$USER -H command..."
+- [x] Add extension to mute "____ is ready" notifications.
+- [x] Fix "Esc" not working to close Overview.
+- [x] Ensure that wasta-login.sh script gets properly run.
+- [x] Test using "runuser -u $USER -- command..." instead of "sudo --user=$USER -H command..."
   - It works, but is it worth pushing another update just for that?
 - [x] Reset app-folders folder-children:
     - need to check for "Utilities", "Sundry", and "YaST"
@@ -18,7 +21,7 @@ ls /usr/share/dbus-1/services/org.gnome.ScreenSaver.service
 $ ls /usr/share/dbus-1/services/org.gnome.ScreenSaver.service*
 /usr/share/dbus-1/services/org.gnome.ScreenSaver.service.disabled
 ```
-2. Verify that app-folders get reset if arbitrarily set to "['Utilities', 'YaST']".
+1. Verify that app-folders get reset if arbitrarily set to "['Utilities', 'YaST']".
 ```bash
 # After login:
 $ gsettings set org.gnome.desktop.app-folders folder-children "['Utilities', 'YaST']"
@@ -27,3 +30,4 @@ $ gnome-session-quit --logout
 $ gesttings get org.gnome.desktop.app-folders folder-children
 ['Graphics', 'AudioVideo', 'Network', 'Office', 'Development', 'System', 'Settings', 'Utility', 'Game', 'Education', 'Wasta']
 ```
+1. Verify that gsettings changes get propagated.

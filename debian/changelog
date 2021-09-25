@@ -1,3 +1,10 @@
+wasta-gnome-focal (0.2) focal; urgency=medium
+
+  * Move desktop login code to wasta-multidesktop.
+  * Add support for gdm3.
+
+ -- Nate Marti <nate_marti@sil.org>  Sat, 25 Sep 2021 07:27:20 +0100
+
 wasta-gnome-focal (0.1.14) focal; urgency=medium
 
   * Build from new repo.

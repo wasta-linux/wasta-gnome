@@ -38,8 +38,50 @@ DIR=/usr/share/wasta-gnome
 # ------------------------------------------------------------------------------
 # General initial config
 # ------------------------------------------------------------------------------
-# Add Wasta icon to slick-greeter desktop entry.
-cp -l /usr/share/wasta-multidesktop/resources/wl-round-22.png /usr/share/slick-greeter/badges/wasta-gnome.png
+
+# Set GDM3 default config.
+if [[ -e /etc/gdm3 ]]; then
+	# Enable GDM3 debug logs (to capture session names).
+	gdm_custom_conf=/etc/gdm3/custom.conf
+	if [[ ! -e ${gdm_custom_conf}.orig ]]; then
+		mv $gdm_custom_conf{,.orig}
+	fi
+	cat > $gdm_custom_conf << EOF
+[debug]
+Enable=true
+EOF
+
+	# Add Wasta logo to GDM3 greeter.
+	gdm_greeter_conf=/etc/gdm3/greeter.dconf-defaults
+	if [[ ! -e ${gdm_greeter_conf}.orig ]]; then
+		mv $gdm_greeter_conf{,.orig}
+	fi
+	#	Ref: https://wiki.debian.org/GDM
+	cat > $gdm_greeter_conf << EOF
+[org/gnome/login-screen]
+logo='/usr/share/plymouth/themes/wasta-logo/wasta-linux.png'
+EOF
+
+	# Change GDM3 greeter background color.
+	#	Ref: https://github.com/thiggy01/change-gdm-background/blob/master/change-gdm-background
+	/usr/share/wasta-gnome/change-gdm3-background.sh '#3C3C3C'
+
+	# Copy wasta-login.sh to GDM3 PostLogin/Default.
+	gdm_default=/etc/gdm3/PostLogin/Default
+	if [[ -e $gdm_default ]]; then
+		# Have to remove already-linked previous version before copying new version.
+		rm $gdm_default
+	fi
+	wasta_login=/usr/share/wasta-multidesktop/scripts/wasta-login.sh
+	cp -l "$wasta_login" /etc/gdm3/PostLogin/Default
+fi
+
+# Add Wasta icon to slick-greeter desktop entry if slick-greeter is installed.
+badges_dir=/usr/share/slick-greeter/badges
+wasta_gnome_badge=/usr/share/slick-greeter/badges/wasta-gnome.png
+if [[ -d $badges_dir ]] && [[ ! -e $wasta_gnome_badge ]]; then
+	cp -l /usr/share/wasta-multidesktop/resources/wl-round-22.png "$wasta_gnome_badge"
+fi
 
 # Disable gnome-screensaver by default (re-enabled at wasta-gnome session login).
 if [[ -e /usr/share/dbus-1/services/org.gnome.ScreenSaver.service ]]; then
@@ -76,8 +118,8 @@ glib-compile-schemas /usr/share/glib-2.0/schemas/ > /dev/null 2>&1 || true;
 echo
 echo "*** Setting initial Nautilus config"
 echo
-# filemanager-actions has no system config file, so
-# copy user config to all existing users' .config folders.
+# filemanager-actions has no system config file, so copy user config to all
+#	existing users' .config folders.
 users=$(find /home/* -maxdepth 0 -type d | cut -d '/' -f3)
 while IFS= read -r user; do
     if [[ $(grep "$user:" /etc/passwd) ]]; then
