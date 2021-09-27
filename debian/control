@@ -9,7 +9,7 @@ Homepage: https://github.com/wasta-linux/wasta-gnome-focal
 Package: wasta-gnome-focal
 Architecture: all
 Depends: filemanager-actions,
- gdm3,
+ gdm3|lightdm,
  gnome-screensaver,
  gnome-shell,
  gnome-shell-extension-desktop-icons,
