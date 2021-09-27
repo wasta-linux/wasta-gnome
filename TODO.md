@@ -1,15 +1,9 @@
-- [x] Add extension to mute "____ is ready" notifications.
-- [x] Fix "Esc" not working to close Overview.
-- [x] Ensure that wasta-login.sh script gets properly run.
-- [x] Test using "runuser -u $USER -- command..." instead of "sudo --user=$USER -H command..."
-  - It works, but is it worth pushing another update just for that?
-- [x] Reset app-folders folder-children:
-    - need to check for "Utilities", "Sundry", and "YaST"
-- [x] Add gnome-screensaver
-- [x] Add Wasta's context menu options to Nautilus
-- [x] Make notifications show up in bottom right corner.
-- [x] Make app indicator icons appear in dash-to-panel.
-- [x] Implement per-desktop gschema overrides.
+- Set lightdm to "conflicts"
+  - [ ] ensure that wasta-multidesktop depends on slick-greeter|gdm3
+- Enable support for Wayland
+  - [ ] add proper .desktop file to /usr/share/wayland-sessions
+  - [ ] ensure that /etc/gdm3/custom.conf does not have WaylandEnable=false
+  - [ ] ...
 
 ### Tests
 1. Verify that gnome screensaver is enabled on login and disabled on logout
