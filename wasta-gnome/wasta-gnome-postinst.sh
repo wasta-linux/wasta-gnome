@@ -42,11 +42,15 @@ DIR=/usr/share/wasta-gnome
 # Set GDM3 default config.
 if [[ -e /etc/gdm3 ]]; then
 	# Enable GDM3 debug logs (to capture session names).
+	#	Also disable Wayland (will be supported in 22.04)
 	gdm_custom_conf=/etc/gdm3/custom.conf
 	if [[ ! -e ${gdm_custom_conf}.orig ]]; then
 		mv $gdm_custom_conf{,.orig}
 	fi
 	cat > $gdm_custom_conf << EOF
+[daemon]
+WaylandEnable=false
+
 [debug]
 Enable=true
 EOF

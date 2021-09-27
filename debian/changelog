@@ -1,3 +1,10 @@
+wasta-gnome-focal (0.2.1) focal; urgency=medium
+
+  * Allow lightdm as display manager.
+  * Disable wayland (to be supported in 22.04).
+
+ -- Nate Marti <nate_marti@sil.org>  Mon, 27 Sep 2021 12:48:38 +0100
+
 wasta-gnome-focal (0.2) focal; urgency=medium
 
   * Move desktop login code to wasta-multidesktop.
