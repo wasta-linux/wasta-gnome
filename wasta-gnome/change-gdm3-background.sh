@@ -94,7 +94,7 @@ fi
 
 CleanUp() {
     # Remove temporary directories and files.
-    rm -r "$workDir"
+    rm -rf "$workDir"
     exit 0
 }
 
@@ -117,7 +117,7 @@ if [[ $(file --mime-type -b "$1") == image/*g ]]; then
     newBg="#lockDialogGroup {
 	background: url('resource:\/\/\/org\/gnome\/shell\/theme\/$imgFile');
 	background-size: cover; }"
-    perl -i -0777 -pe "s/$oldBg/$newBg/s" "$workDir"/theme/gdm3.css
+    perl -i -0777 -pe "s/$oldBg/$newBg/s" "$workDir"/theme/gdm.css
 
     # Generate gresource xml file.
     echo '<?xml version="1.0" encoding="UTF-8"?>
