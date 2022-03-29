@@ -6,7 +6,7 @@
 set -e
 
 case "$1" in
-    configure)
+    remove|purge)
         # Call main postinst script.  Error in that script should NOT stop
         #   postinst from completing.  We want to ensure that the package
         #   installs even if the script fails.
@@ -14,15 +14,9 @@ case "$1" in
         #   the broken version will attempt to keep installing until manually
         #   uninstalled.
         bash /usr/share/wasta-gnome/wasta-gnome-postrm.sh
-    ;;
-
-    abort-upgrade|abort-remove|abort-deconfigure)
-    ;;
-
+        ;;
     *)
-        echo "postrm called with unknown argument \`$1'" >&2
-        exit 1
-    ;;
+        ;;
 esac
 
 # dh_installdeb will replace this with shell code automatically
