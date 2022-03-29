@@ -8,8 +8,7 @@ Homepage: https://github.com/wasta-linux/wasta-gnome/tree/jammy
 
 Package: wasta-gnome
 Architecture: all
-Depends: filemanager-actions,
- gdm3,
+Depends: gdm3,
  gnome-shell,
  gnome-shell-extension-desktop-icons,
  libglib2.0-dev-bin,
