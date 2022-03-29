@@ -17,6 +17,7 @@ Depends: gdm3,
  libglib2.0-dev-bin,
  nautilus,
  nautilus-image-converter,
+ wasta-multidesktop,
  ${misc:Depends}
 Recommends: bookletimposer, wasta-vertex-ubuntu
 Description: Wasta-Linux GNOME for Ubuntu 22.04 Jammy
