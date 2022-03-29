@@ -16,7 +16,6 @@ Depends: gdm3,
  gnome-shell-extension-panel-osd,
  libglib2.0-dev-bin,
  nautilus,
- nautilus-actions,
  nautilus-image-converter,
  ${misc:Depends}
 Recommends: bookletimposer, wasta-vertex-ubuntu
