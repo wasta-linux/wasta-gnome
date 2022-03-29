@@ -120,15 +120,15 @@ echo "*** Setting initial Nautilus config"
 echo
 # filemanager-actions has no system config file, so copy user config to all
 #	existing users' .config folders.
-users=$(find /home/* -maxdepth 0 -type d | cut -d '/' -f3)
-while IFS= read -r user; do
-    if [[ $(grep "$user:" /etc/passwd) ]]; then
-        mkdir -p -m 755 "/home/$user/.config/filemanager-actions"
-        cp /etc/skel/.config/filemanager-actions/filemanager-actions.conf "/home/$user/.config/filemanager-actions/filemanager-actions.conf"
-        chown -R $user:$user "/home/$user/.config/filemanager-actions"
-        chmod 644 "/home/$user/.config/filemanager-actions/filemanager-actions.conf"
-    fi
-done <<< "$users"
+# users=$(find /home/* -maxdepth 0 -type d | cut -d '/' -f3)
+# while IFS= read -r user; do
+#     if [[ $(grep "$user:" /etc/passwd) ]]; then
+#         mkdir -p -m 755 "/home/$user/.config/filemanager-actions"
+#         cp /etc/skel/.config/filemanager-actions/filemanager-actions.conf "/home/$user/.config/filemanager-actions/filemanager-actions.conf"
+#         chown -R $user:$user "/home/$user/.config/filemanager-actions"
+#         chmod 644 "/home/$user/.config/filemanager-actions/filemanager-actions.conf"
+#     fi
+# done <<< "$users"
 
 echo
 echo "*** Restarting GNOME Shell"
