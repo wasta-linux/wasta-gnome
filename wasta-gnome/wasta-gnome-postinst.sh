@@ -4,7 +4,7 @@
 # wasta-gnome-postinst.sh
 #
 #   This script is automatically run by the postinst configure step on
-#       installation of wasta-gnome-*. It can be manually re-run, but
+#       installation of wasta-gnome. It can be manually re-run, but
 #       is only intended to be run at package installation.
 #
 #   2020-07-22 ndm: initial script
