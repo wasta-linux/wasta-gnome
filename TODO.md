@@ -1,3 +1,5 @@
+- Ensure that GDM gets properly reset if wasta-gnome is uninstalled.
+  - [ ] reset login screen background color and image
 - Set lightdm to "conflicts"
   - [ ] ensure that wasta-multidesktop depends on slick-greeter|gdm3
 - Enable support for Wayland
