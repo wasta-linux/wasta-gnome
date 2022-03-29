@@ -96,7 +96,7 @@ echo "*** Updating dconf / gsettings default values"
 echo
 
 # Updating dconf before GNOME schemas because they depend on its entries.
-dconf update
+# dconf update
 
 # GNOME Extension schemas: separate location from System schemas.
 glib-compile-schemas /usr/share/gnome-shell/extensions/applications-overview-tooltip@RaphaelRochet/schemas/ > /dev/null 2>&1 || true;
