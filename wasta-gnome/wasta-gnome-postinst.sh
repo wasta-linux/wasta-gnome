@@ -131,9 +131,10 @@ echo
 # done <<< "$users"
 
 echo
-echo "*** Restarting GNOME Shell"
+echo "*** Need to reboot for changes to take effect."
 echo
-killall -SIGQUIT gnome-shell
+# Require reboot to ensure gdm3 is eventually restarted.
+echo "*** System restart required ***" > /var/run/reboot-required
 
 # ------------------------------------------------------------------------------
 # Finished
