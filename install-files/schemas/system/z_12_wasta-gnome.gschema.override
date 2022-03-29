@@ -112,24 +112,25 @@ start-with-sidebar = true
 home = ['<Super>e']
 
 [org.gnome.settings-daemon.plugins.power:wasta-gnome]
-button-power = 'interactive'
-button-sleep = 'suspend'
-critical-battery-action = 'suspend'
+#button-power = 'interactive'
+#button-sleep = 'suspend'
+#critical-battery-action = 'suspend'
+power-saver-profile-on-low-battery = true
 lid-close-suspend-with-external-monitor = true
-percentage-action = 5
-percentage-critical = 10
-percentage-low = 15
+#percentage-action = 5
+#percentage-critical = 10
+#percentage-low = 15
 power-button-action = 'interactive'
 sleep-inactive-battery-timeout = 1800
-use-time-for-policy = false
+#use-time-for-policy = false
 
-[org.gnome.settings-daemon.plugins.xsettings:wasta-gnome]
-antialiasing = 'rgba'
+#[org.gnome.settings-daemon.plugins.xsettings:wasta-gnome]
+#antialiasing = 'rgba'
 
 
 ### GNOME Shell & Extensions ###
 [org.gnome.shell:wasta-gnome]
-app-picker-view = 1
+#app-picker-view = 1
 favorite-apps = ['shutdown-for-wasta-gnome.desktop', 'firefox.desktop', 'org.gnome.Nautilus.desktop', 'libreoffice-writer.desktop', 'wasta-backup.desktop', 'wasta-resources.desktop']
 
 [org.gnome.shell.overrides:wasta-gnome]
