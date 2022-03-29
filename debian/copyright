@@ -1,6 +1,6 @@
 Format: http://dep.debian.net/deps/dep5
-Upstream-Name: wasta-gnome-focal
-Source: https://github.com/wasta-linux/wasta-gnome-focal
+Upstream-Name: wasta-gnome
+Source: https://github.com/wasta-linux/wasta-gnome
 
 Files: *
 Copyright: 2020 Nate Marti <nate_marti@sil.org>
