@@ -3,7 +3,7 @@
 # ==============================================================================
 # wasta-gnome-postinst.sh
 #
-#   This script is automatically run by the postrm configure step on
+#   This script is automatically run by the prerm remove/purge step on
 #       installation of wasta-gnome. It can be manually re-run, but
 #       is only intended to be run at package installation.
 #
