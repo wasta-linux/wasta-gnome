@@ -10,7 +10,10 @@ Package: wasta-gnome
 Architecture: all
 Depends: gdm3,
  gnome-shell,
- gnome-shell-extension-desktop-icons,
+ gnome-shell-extension-appindicator,
+ gnome-shell-extension-dash-to-panel,
+ gnome-shell-extension-desktop-icons-ng,
+ gnome-shell-extension-panel-osd,
  libglib2.0-dev-bin,
  nautilus,
  nautilus-actions,
