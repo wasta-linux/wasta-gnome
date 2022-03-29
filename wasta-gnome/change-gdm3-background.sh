@@ -12,23 +12,9 @@ fi
 
 # Check what linux distro is being used.
 distro="$(lsb_release -c | cut -f 2)"
-if ! [[ "$distro" =~ (focal|groovy) ]]; then
-    echo 'Sorry, this script only works with focal or groovy distros.'
+if ! [[ "$distro" =~ (focal|groovy|jammy) ]]; then
+    echo 'Sorry, this script only works with focal, groovy, or jammy distros.'
     exit 1
-fi
-
-# Check if glib 2.0 development libraries are installed.
-if [ ! -x "$(command -v glib-compile-resources)" ]; then
-    echo 'Additional glib 2.0 libraries need to be installed.'
-    read -p 'Type y or Y to proceed. Any other key to exit: ' -n 1
-    if [[ "$REPLY" =~ ^[yY]$ ]]; then
-	apt install libglib2.0-dev-bin
-    else
-	echo "This tool can't run without required libraries"
-	echo "Exiting."
-	echo
-	exit 1
-    fi
 fi
 
 # Assign the default gdm theme file path.
