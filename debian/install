@@ -3,7 +3,7 @@ install-files/applications                          usr/share
 # install-files/dbus-services/*                       usr/share/dbus-1/services
 # install-files/file-manager/filemanager-actions.conf etc/skel/.config/filemanager-actions
 # install-files/file-manager/actions                  usr/share/file-manager
-install-files/gnome-session/*                       usr/share/gnome-session/sessions
+# install-files/gnome-session/*                       usr/share/gnome-session/sessions
 install-files/gnome-shell                           usr/share
 install-files/lightdm.conf.d                        etc/lightdm
 install-files/schemas/applications-overview-tooltip/*  usr/share/gnome-shell/extensions/applications-overview-tooltip@RaphaelRochet/schemas
