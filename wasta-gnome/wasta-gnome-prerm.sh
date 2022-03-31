@@ -63,15 +63,16 @@ gdm_default=/etc/gdm3/PostLogin/Default
 rm -f $gdm_default
 
 echo
-echo "*** Restarting GNOME Shell"
+echo "*** Need to reboot for changes to take effect."
 echo
-killall -SIGQUIT gnome-shell
+# Require reboot to ensure gdm3 is eventually restarted.
+echo "*** System restart required ***" > /var/run/reboot-required
 
 # ------------------------------------------------------------------------------
 # Finished
 # ------------------------------------------------------------------------------
 echo
-echo "*** Script Exit: wasta-gnome-postinst.sh"
+echo "*** Script Exit: wasta-gnome-postrm.sh"
 echo
 
 exit 0
