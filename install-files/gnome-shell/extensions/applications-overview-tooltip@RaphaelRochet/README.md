@@ -6,7 +6,7 @@ Gnome shell extension that shows a tooltip under applications icons on applicati
 ## Features
 - Shows full text instead of cut-off/elipsized application title
 - Shows the application description in the tooltip-label (optional) from the .desktop file of the application
-- Comes in Brazilian Portuguese, English, French and German
+- Comes in Czech, Brazilian Portuguese, English, French and German
 
 ## One-click install
 It's on extensions.gnome.org :
@@ -16,6 +16,30 @@ https://extensions.gnome.org/extension/1071/applications-overview-tooltip/
 To install, simply download as zip and unzip contents in ~/.local/share/gnome-shell/extensions/applications-overview-tooltip@RaphaelRochet
 
 ## Changes
+
+### v14
+- Minor refactoring
+
+### v13
+- Gnome 41
+
+### v12
+- Gnome 40
+- Removed ellipsis condition
+
+### v11
+- German translation improvements (thanks Etamuk)
+- Brings back tooltips on search results
+- Fixed schema filename (for packagers)
+
+### v10
+- Gnome 3.38
+
+### v9
+- Ensure tooltip hiding on page change or overview hiding
+- Make title optional in tooltip ; reworked prefs window
+- Added Czech translation (thanks Karel Mácha)
+- Fixed warnings in log
 
 ### v8
 - Fixed no tooltip in "Favorites" or after suspend

@@ -1,9 +1,6 @@
 /* exported init enable disable */
 // Drive menu extension
-const { Gio, GObject, Shell, St } = imports.gi;
-
-const Gettext = imports.gettext.domain('gnome-shell-extensions');
-const _ = Gettext.gettext;
+const { Clutter, Gio, GObject, Shell, St } = imports.gi;
 
 const ExtensionUtils = imports.misc.extensionUtils;
 const Main = imports.ui.main;
@@ -11,12 +8,25 @@ const PanelMenu = imports.ui.panelMenu;
 const PopupMenu = imports.ui.popupMenu;
 const ShellMountOperation = imports.ui.shellMountOperation;
 
-var MountMenuItem = GObject.registerClass(
-class MountMenuItem extends PopupMenu.PopupBaseMenuItem {
-    _init(mount) {
-        super._init();
+const _ = ExtensionUtils.gettext;
 
-        this.label = new St.Label({ text: mount.get_name() });
+Gio._promisify(Gio.File.prototype, 'query_filesystem_info_async');
+
+class MountMenuItem extends PopupMenu.PopupBaseMenuItem {
+    static {
+        GObject.registerClass(this);
+    }
+
+    constructor(mount) {
+        super({
+            style_class: 'drive-menu-item',
+        });
+
+        this.label = new St.Label({
+            text: mount.get_name(),
+            x_expand: true,
+            y_align: Clutter.ActorAlign.CENTER,
+        });
         this.add_child(this.label);
         this.label_actor = this.label;
 
@@ -28,9 +38,14 @@ class MountMenuItem extends PopupMenu.PopupBaseMenuItem {
             icon_name: 'media-eject-symbolic',
             style_class: 'popup-menu-icon',
         });
-        let ejectButton = new St.Button({ child: ejectIcon });
+        let ejectButton = new St.Button({
+            child: ejectIcon,
+            style_class: 'button',
+        });
         ejectButton.connect('clicked', this._eject.bind(this));
         this.add(ejectButton);
+
+        this.hide();
 
         this._changedId = mount.connect('changed', this._syncVisibility.bind(this));
         this._syncVisibility();
@@ -45,7 +60,7 @@ class MountMenuItem extends PopupMenu.PopupBaseMenuItem {
         super.destroy();
     }
 
-    _isInteresting() {
+    async _isInteresting() {
         if (!this.mount.can_eject() && !this.mount.can_unmount())
             return false;
         if (this.mount.is_shadowed())
@@ -53,17 +68,25 @@ class MountMenuItem extends PopupMenu.PopupBaseMenuItem {
 
         let volume = this.mount.get_volume();
 
-        if (!volume) {
-            // probably a GDaemonMount, could be network or
-            // local, but we can't tell; assume it's local for now
-            return true;
+        if (volume)
+            return volume.get_identifier('class') !== 'network';
+
+        const root = this.mount.get_root();
+
+        try {
+            const attr = Gio.FILE_ATTRIBUTE_FILESYSTEM_REMOTE;
+            const info = await root.query_filesystem_info_async(attr, null);
+            return !info.get_attribute_boolean(attr);
+        } catch (e) {
+            log(`Failed to query filesystem: ${e.message}`);
         }
 
-        return volume.get_identifier('class') !== 'network';
+        // Hack, fall back to looking at GType
+        return Gio._LocalFilePrototype.isPrototypeOf(root);
     }
 
-    _syncVisibility() {
-        this.visible = this._isInteresting();
+    async _syncVisibility() {
+        this.visible = await this._isInteresting();
     }
 
     _eject() {
@@ -111,28 +134,26 @@ class MountMenuItem extends PopupMenu.PopupBaseMenuItem {
 
         super.activate(event);
     }
-});
+}
 
-let DriveMenu = GObject.registerClass(
 class DriveMenu extends PanelMenu.Button {
-    _init() {
-        super._init(0.0, _('Removable devices'));
+    static {
+        GObject.registerClass(this);
+    }
 
-        let hbox = new St.BoxLayout({ style_class: 'panel-status-menu-box' });
+    constructor() {
+        super(0.0, _('Removable devices'));
+
         let icon = new St.Icon({
             icon_name: 'media-eject-symbolic',
             style_class: 'system-status-icon',
         });
 
-        hbox.add_child(icon);
-        hbox.add_child(PopupMenu.arrowIcon(St.Side.BOTTOM));
-        this.add_child(hbox);
+        this.add_child(icon);
 
         this._monitor = Gio.VolumeMonitor.get();
-        this._addedId = this._monitor.connect('mount-added', (monitor, mount) => {
-            this._addMount(mount);
-            this._updateMenuVisibility();
-        });
+        this._addedId = this._monitor.connect('mount-added',
+            (monitor, mount) => this._addMount(mount));
         this._removedId = this._monitor.connect('mount-removed', (monitor, mount) => {
             this._removeMount(mount);
             this._updateMenuVisibility();
@@ -163,6 +184,8 @@ class DriveMenu extends PanelMenu.Button {
         let item = new MountMenuItem(mount);
         this._mounts.unshift(item);
         this.menu.addMenuItem(item, 0);
+
+        item.connect('notify::visible', () => this._updateMenuVisibility());
     }
 
     _removeMount(mount) {
@@ -187,19 +210,22 @@ class DriveMenu extends PanelMenu.Button {
 
         super._onDestroy();
     }
-});
+}
 
+/** */
 function init() {
     ExtensionUtils.initTranslations();
 }
 
 let _indicator;
 
+/** */
 function enable() {
     _indicator = new DriveMenu();
     Main.panel.addToStatusArea('drive-menu', _indicator);
 }
 
+/** */
 function disable() {
     _indicator.destroy();
 }

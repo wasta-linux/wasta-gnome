@@ -1,11 +1,11 @@
 const Main = imports.ui.main;
 const Mainloop = imports.mainloop;
 const St = imports.gi.St;
-const Tweener = imports.ui.tweener;
+const Tweener = imports.tweener.tweener;
 const Gio = imports.gi.Gio
 const Pango = imports.gi.Pango;
 const extension = imports.misc.extensionUtils.getCurrentExtension();
-const Utils = extension.imports.utils;
+const ExtensionUtils = imports.misc.extensionUtils;
 const Format = imports.format;
 const Gettext = imports.gettext.domain('applications-overview-tooltip');
 const _ = Gettext.gettext;
@@ -16,13 +16,14 @@ let LABELHIDETIME 	= 10/100;
 let SLIDETIME		= 15/100;
 let HOVERDELAY		= 300;
 let HIDEDELAY		= 500;
-let ALWAYSSHOW		= true;
+let TITLE			= true;
 let APPDESCRIPTION	= true;
 let GROUPAPPCOUNT	= true;
 let BORDERS			= false;
 
 // private variables
 let _old_addItem = null;		// used to restore monkey patched function on disable
+let _old_searchAddItem = null;	// same but for search results
 let _tooltips = null;			// used to disconnect events on disable
 let _labelTimeoutId = 0;		// id of timer waiting for start
 let _resetHoverTimeoutId = 0;	// id of last (cancellable) timer
@@ -34,13 +35,13 @@ let _labelShowing = false;		// self explainatory
 
 let _settings;
 let _settingsConnectionId;
-
+let _ovhidingConnectionId;
 
 function init() {
 
 	// Translation init
 	String.prototype.format = Format.format;
-	Utils.initTranslations("applications-overview-tooltip");
+	ExtensionUtils.initTranslations("applications-overview-tooltip");
 
 }
 
@@ -48,38 +49,51 @@ function init() {
 function enable() {
 
 	// Settings access
-	_settings = Utils.getSettings();
+	_settings = ExtensionUtils.getSettings('org.gnome.shell.extensions.applications-overview-tooltip');
 	_applySettings();
 	_tooltips = new Array();
 
-	// Enabling tooltips for already loaded icons in "Recent" view including folders
-	_connectAll(Main.overview.viewSelector.appDisplay._views[0].view);
+	// Enabling tooltips for already loaded icons
+	_connectAll(Main.overview._overview._controls._appDisplay);
 
-	// Enabling tooltips for already loaded icons in "All" view including folders
-	_connectAll(Main.overview.viewSelector.appDisplay._views[1].view);
-
-	// monkeypatching for future icons (includes search results app icons)
+	// monkeypatching for future app icons
 	_old_addItem = imports.ui.iconGrid.IconGrid.prototype.addItem;
-	imports.ui.iconGrid.IconGrid.prototype.addItem = function(item, index){
+	imports.ui.iconGrid.IconGrid.prototype.addItem = function(item, page, index){
 		_connect(item);
 		// original part of the function I'm overwriting
 		_old_addItem.apply(this, arguments);
 	};
 
+	// monkeypatching for future app icons in search results
+	_old_searchAddItem = imports.ui.search.GridSearchResults.prototype._addItem;
+	imports.ui.search.GridSearchResults.prototype._addItem = function(display){
+		_connect(display);
+		_old_searchAddItem.apply(this, arguments);
+	};
+
 	// apply new settings if changed
 	_settingsConnectionId = _settings.connect('changed', _applySettings);
+
+	// Hide tooltip if overview is hidden
+	_ovhidingConnectionId = Main.overview.connect('hiding', _onLeave);
 
 }
 
 
 function disable() {
 
+	// Disconnect from events
+	if (_ovhidingConnectionId > 0) _settings.disconnect(_ovhidingConnectionId);
+
 	// disconnects settings
 	if (_settingsConnectionId > 0) _settings.disconnect(_settingsConnectionId);
 	_settings = null;
 
-	// restore the original addItem function
+	// restore the original addItem functions and remove references to them
 	imports.ui.iconGrid.IconGrid.prototype.addItem = _old_addItem;
+	imports.ui.search.GridSearchResults.prototype._addItem = _old_searchAddItem;
+	_old_addItem = null;
+	_old_searchAddItem = null;
 
 	// disconnects from all loaded icons
 	for (let i = 0; i < _tooltips.length; i++) {
@@ -96,7 +110,7 @@ function _applySettings() {
 	LABELSHOWTIME = _settings.get_int("labelshowtime")/100 ;
 	LABELHIDETIME = _settings.get_int("labelhidetime")/100 ;
 	HOVERDELAY = _settings.get_int("hoverdelay") ;
-	ALWAYSSHOW = _settings.get_boolean("alwaysshow") ;
+	TITLE = _settings.get_boolean("title") ;
 	APPDESCRIPTION = _settings.get_boolean("appdescription") ;
 	GROUPAPPCOUNT = _settings.get_boolean("groupappcount") ;
 	BORDERS = _settings.get_boolean("borders");
@@ -109,7 +123,7 @@ function _connectAll(view) {
 	let appIcons = view._orderedItems;
 	for (let i in appIcons) {
 		let icon = appIcons[i];
-		let actor = icon.actor;
+		let actor = icon;
 		if (actor._delegate.hasOwnProperty('_folder')) {
 			_connectAll(icon.view)
 		}
@@ -188,6 +202,7 @@ function _onLeave() {
 function _showTooltip(actor) {
 
 	let icontext = '';
+	let titletext = '';
 	let detailtext = '';
 	let should_display = false;
 
@@ -199,6 +214,7 @@ function _showTooltip(actor) {
 			let appDescription = actor._delegate.app.get_description();
 			if (appDescription){
 				detailtext = appDescription;
+				should_display = true;
 			}
 		}
 
@@ -209,6 +225,7 @@ function _showTooltip(actor) {
 		if (GROUPAPPCOUNT) {
 			let appCount = actor._delegate.view.getAllItems().length;
 			detailtext = Gettext.ngettext( "Group of %d application", "Group of %d applications", appCount ).format(appCount);
+			should_display = true;
 		}
 
 	} else {
@@ -217,15 +234,21 @@ function _showTooltip(actor) {
 
 	}
 
+	// Decide wether to show title
+	if ( TITLE && icontext ) {
+		titletext = icontext;
+		should_display = true;
+	}
+
 	// If there's something to show ..
-	if ( icontext && ( ALWAYSSHOW || actor._delegate.icon.label.get_clutter_text().get_layout().is_ellipsized() ) ){
+	if ( ( titletext || detailtext ) && should_display ) {
 
 		// Create a new tooltip if needed
 		if (!_ttbox) {
 			let css_class = BORDERS ? 'app-tooltip-borders' : 'app-tooltip';
 			_ttbox = new St.Bin({ style_class: css_class });
 			_ttlayout = new St.BoxLayout({ vertical: true });
-			_ttlabel = new St.Label({ style_class: 'app-tooltip-title', text: icontext });
+			_ttlabel = new St.Label({ style_class: 'app-tooltip-title', text: titletext });
 			_ttdetail = new St.Label({ style_class: 'app-tooltip-detail', text: detailtext });
 			_ttlayout.add_child(_ttlabel);
 			_ttlayout.add_child(_ttdetail);
@@ -241,10 +264,11 @@ function _showTooltip(actor) {
 
 			Main.uiGroup.add_actor(_ttbox);
 		} else {
-			_ttlabel.text = icontext;
+			_ttlabel.text = titletext;
 			_ttdetail.text = detailtext;
 		}
 
+		if (!titletext) { _ttlabel.hide() } else { _ttlabel.show() };
 		if (!detailtext) { _ttdetail.hide() } else { _ttdetail.show() };
 
 		let [stageX, stageY] = actor.get_transformed_position();
