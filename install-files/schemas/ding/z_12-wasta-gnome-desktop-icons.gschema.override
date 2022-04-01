@@ -1,0 +1,4 @@
+[org.gnome.shell.extensions.ding:wasta-gnome]
+icon-size = 'small'
+show-home = false
+show-trash = false

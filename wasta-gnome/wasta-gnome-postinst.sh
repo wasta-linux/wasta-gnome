@@ -104,7 +104,7 @@ glib-compile-schemas /usr/share/gnome-shell/extensions/applications-overview-too
 #glib-compile-schemas /usr/share/gnome-shell/extensions/dash-to-panel@jderose9.github.com/schemas/ > /dev/null 2>&1 || true;
 
 # gschema is in system location when using deb package, so separate cmd not needed.
-#glib-compile-schemas /usr/share/gnome-shell/extensions/desktop-icons@csoriano/schemas/ > /dev/null 2>&1 || true;
+#glib-compile-schemas /usr/share/gnome-shell/extensions/ding@rastersoft.com/schemas/ > /dev/null 2>&1 || true;
 
 #glib-compile-schemas /usr/share/gnome-shell/extensions/panel-osd@berend.de.schouwer.gmail.com/schemas/ > /dev/null 2>&1 || true;
 
