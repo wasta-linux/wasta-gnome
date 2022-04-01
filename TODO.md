@@ -7,16 +7,15 @@
   - [ ] ensure that /etc/gdm3/custom.conf does not have WaylandEnable=false
   - [ ] ...
 
+### Add packaged extension schemas to gsettings?
+
+### Panels not getting moved to bottom
+
+### Missing gsettings keys
+- /usr/share/glib-2.0/schemas/z_12_wasta-gnome.gschema.override
+
+
 ### Tests
-1. Verify that gnome screensaver is enabled on login and disabled on logout
-```bash
-# After login:
-$ ls /usr/share/dbus-1/services/org.gnome.ScreenSaver.service*
-ls /usr/share/dbus-1/services/org.gnome.ScreenSaver.service
-# After logout:
-$ ls /usr/share/dbus-1/services/org.gnome.ScreenSaver.service*
-/usr/share/dbus-1/services/org.gnome.ScreenSaver.service.disabled
-```
 1. Verify that app-folders get reset if arbitrarily set to "['Utilities', 'YaST']".
 ```bash
 # After login:
