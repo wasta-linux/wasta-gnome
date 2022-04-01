@@ -14,5 +14,6 @@ install-files/schemas/applications-overview-tooltip/*  usr/share/gnome-shell/ext
 # install-files/schemas/dash-to-panel/*               usr/share/gnome-shell/extensions/dash-to-panel@jderose9.github.com/schemas
 # install-files/schemas/panel-osd/*                   usr/share/gnome-shell/extensions/panel-osd@berend.de.schouwer.gmail.com/schemas
 install-files/schemas/system/*                      usr/share/glib-2.0/schemas
-install-files/xsessions	                            usr/share
+install-files/sessions/wasta-gnome.desktop          usr/share/wayland-sessions
+install-files/sessions/wasta-gnome.desktop          usr/share/xsessions
 wasta-gnome                                         usr/share
