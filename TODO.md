@@ -1,18 +1,16 @@
+- Update GNOME-related packages when functional (use debs if available, otherwise zips):
+  - [ ] filemanager-actions (deb-only)
+  - [ ] dash-to-panel
+  - [ ] panel-osd
 - Ensure that GDM gets properly reset if wasta-gnome is uninstalled.
   - [ ] reset login screen background color and image
-- Set lightdm to "conflicts"
-  - [ ] ensure that wasta-multidesktop depends on slick-greeter|gdm3
+- Set lightdm to "conflicts"?
+  - [x] ensure that wasta-multidesktop depends on slick-greeter|gdm3
 - Enable support for Wayland
-  - [ ] add proper .desktop file to /usr/share/wayland-sessions
-  - [ ] ensure that /etc/gdm3/custom.conf does not have WaylandEnable=false
-  - [ ] ...
+  - [x] add proper .desktop file to /usr/share/wayland-sessions
+  - [x] ensure that /etc/gdm3/custom.conf does not have WaylandEnable=false
 
 ### Add packaged extension schemas to gsettings?
-
-### Panels not getting moved to bottom
-
-### Missing gsettings keys
-- /usr/share/glib-2.0/schemas/z_12_wasta-gnome.gschema.override
 
 
 ### Tests
