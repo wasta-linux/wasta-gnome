@@ -67,13 +67,13 @@ EOF
 	/usr/share/wasta-gnome/change-gdm3-background.sh '#3C3C3C'
 
 	# Copy wasta-login.sh to GDM3 PostLogin/Default.
-	gdm_default=/etc/gdm3/PostLogin/Default
-	if [[ -e $gdm_default ]]; then
-		# Have to remove already-linked previous version before copying new version.
-		rm $gdm_default
-	fi
-	wasta_login=/usr/share/wasta-multidesktop/scripts/wasta-login.sh
-	cp -l "$wasta_login" /etc/gdm3/PostLogin/Default
+	#gdm_default=/etc/gdm3/PostLogin/Default
+	#if [[ -e $gdm_default ]]; then
+	#	# Have to remove already-linked previous version before copying new version.
+	#	rm $gdm_default
+	#fi
+	#wasta_login=/usr/share/wasta-multidesktop/scripts/wasta-login.sh
+	#cp -l "$wasta_login" /etc/gdm3/PostLogin/Default
 fi
 
 # Add Wasta icon to slick-greeter desktop entry if slick-greeter is installed.
@@ -84,9 +84,9 @@ if [[ -d $badges_dir ]] && [[ ! -e $wasta_gnome_badge ]]; then
 fi
 
 # Disable gnome-screensaver by default (re-enabled at wasta-gnome session login).
-if [[ -e /usr/share/dbus-1/services/org.gnome.ScreenSaver.service ]]; then
-    mv /usr/share/dbus-1/services/org.gnome.ScreenSaver.service{,.disabled}
-fi
+#if [[ -e /usr/share/dbus-1/services/org.gnome.ScreenSaver.service ]]; then
+#    mv /usr/share/dbus-1/services/org.gnome.ScreenSaver.service{,.disabled}
+#fi
 
 # ------------------------------------------------------------------------------
 # Dconf / Gsettings Default Value adjustments
