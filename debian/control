@@ -11,7 +11,7 @@ Architecture: all
 Depends: gdm3,
  gnome-shell,
  gnome-shell-extension-appindicator,
- gnome-shell-extension-dash-to-panel,
+ gnome-shell-extension-dash-to-panel (>= 42),
  gnome-shell-extension-desktop-icons-ng,
  gnome-shell-extension-panel-osd,
  libglib2.0-dev-bin,
