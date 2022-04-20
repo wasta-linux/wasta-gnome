@@ -98,15 +98,36 @@ echo
 # Updating dconf before GNOME schemas because they depend on its entries.
 # dconf update
 
-# GNOME Extension schemas: separate location from System schemas.
-glib-compile-schemas /usr/share/gnome-shell/extensions/applications-overview-tooltip@RaphaelRochet/schemas/ > /dev/null 2>&1 || true;
-
-#glib-compile-schemas /usr/share/gnome-shell/extensions/dash-to-panel@jderose9.github.com/schemas/ > /dev/null 2>&1 || true;
-
-# gschema is in system location when using deb package, so separate cmd not needed.
-#glib-compile-schemas /usr/share/gnome-shell/extensions/ding@rastersoft.com/schemas/ > /dev/null 2>&1 || true;
-
-#glib-compile-schemas /usr/share/gnome-shell/extensions/panel-osd@berend.de.schouwer.gmail.com/schemas/ > /dev/null 2>&1 || true;
+# GNOME Extension schemas: separate location from System schemas (compile if individual schemas folders exist).
+extensions_schemas=(
+	/usr/share/gnome-shell/extensions/applications-overview-tooltip@RaphaelRochet/schemas/
+	/usr/share/gnome-shell/extensions/dash-to-panel@jderose9.github.com/schemas/
+	/usr/share/gnome-shell/extensions/drive-menu@gnome-shell-extensions.gcampax.github.com/schemas/
+	/usr/share/gnome-shell/extensions/ding@rastersoft.com/schemas/
+	/usr/share/gnome-shell/extensions/panel-osd@berend.de.schouwer.gmail.com/schemas/
+	/usr/share/gnome-shell/extensions/windowIsReady_Remover@nunofarruca@gmail.com/schemas/
+)
+for schema in "${extensions_schemas[@]}"; do
+	if [[ -d "$schema" ]]; then
+		glib-compile-schemas "$schema" >/dev/null 2>&1 || true;
+	fi
+done
+# # applications-overview-tooltip
+# if [[ -d /usr/share/gnome-shell/extensions/applications-overview-tooltip@RaphaelRochet/schemas ]]; then
+# 	glib-compile-schemas /usr/share/gnome-shell/extensions/applications-overview-tooltip@RaphaelRochet/schemas/ > /dev/null 2>&1 || true;
+# fi
+# # dash-to-panel
+# if [[ -d /usr/share/gnome-shell/extensions/dash-to-panel@jderose9.github.com/schemas ]]; then
+# 	glib-compile-schemas /usr/share/gnome-shell/extensions/dash-to-panel@jderose9.github.com/schemas/ > /dev/null 2>&1 || true;
+# fi
+# # ding
+# if [[ -d /usr/share/gnome-shell/extensions/ding@rastersoft.com/schemas ]]; then
+# 	glib-compile-schemas /usr/share/gnome-shell/extensions/ding@rastersoft.com/schemas/ > /dev/null 2>&1 || true;
+# fi
+# # panel-osd
+# if [[ -d /usr/share/gnome-shell/extensions/panel-osd@berend.de.schouwer.gmail.com/schemas ]]; then
+# 	glib-compile-schemas /usr/share/gnome-shell/extensions/panel-osd@berend.de.schouwer.gmail.com/schemas/ > /dev/null 2>&1 || true;
+# fi
 
 # MAIN System schemas: we have placed our override file in this directory
 # Sending any "error" to null (if key not found don't want to worry user)
