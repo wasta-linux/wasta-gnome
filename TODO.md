@@ -1,6 +1,6 @@
-- Update GNOME-related packages when functional (use debs if available, otherwise zips):
+- Update GNOME-related packages (gnome-shell v42) when functional (use debs if available, otherwise zips):
   - [ ] filemanager-actions (deb-only)
-  - [ ] dash-to-panel
+  - [x] dash-to-panel (2022-04-20: ZIP, ext. v48)
   - [ ] panel-osd
 - Ensure that GDM gets properly reset if wasta-gnome is uninstalled.
   - [ ] reset login screen background color and image
