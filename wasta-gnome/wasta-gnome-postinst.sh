@@ -112,22 +112,6 @@ for schema in "${extensions_schemas[@]}"; do
 		glib-compile-schemas "$schema" >/dev/null 2>&1 || true;
 	fi
 done
-# # applications-overview-tooltip
-# if [[ -d /usr/share/gnome-shell/extensions/applications-overview-tooltip@RaphaelRochet/schemas ]]; then
-# 	glib-compile-schemas /usr/share/gnome-shell/extensions/applications-overview-tooltip@RaphaelRochet/schemas/ > /dev/null 2>&1 || true;
-# fi
-# # dash-to-panel
-# if [[ -d /usr/share/gnome-shell/extensions/dash-to-panel@jderose9.github.com/schemas ]]; then
-# 	glib-compile-schemas /usr/share/gnome-shell/extensions/dash-to-panel@jderose9.github.com/schemas/ > /dev/null 2>&1 || true;
-# fi
-# # ding
-# if [[ -d /usr/share/gnome-shell/extensions/ding@rastersoft.com/schemas ]]; then
-# 	glib-compile-schemas /usr/share/gnome-shell/extensions/ding@rastersoft.com/schemas/ > /dev/null 2>&1 || true;
-# fi
-# # panel-osd
-# if [[ -d /usr/share/gnome-shell/extensions/panel-osd@berend.de.schouwer.gmail.com/schemas ]]; then
-# 	glib-compile-schemas /usr/share/gnome-shell/extensions/panel-osd@berend.de.schouwer.gmail.com/schemas/ > /dev/null 2>&1 || true;
-# fi
 
 # MAIN System schemas: we have placed our override file in this directory
 # Sending any "error" to null (if key not found don't want to worry user)
@@ -153,6 +137,7 @@ echo
 
 echo
 echo "*** Need to reboot for changes to take effect."
+echo "*** \"Wasta GNOME\" will be available as an alternative session at the login screen."
 echo
 # Require reboot to ensure gdm3 is eventually restarted.
 echo "*** System restart required ***" > /var/run/reboot-required
