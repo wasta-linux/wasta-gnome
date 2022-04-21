@@ -6,7 +6,7 @@ install-files/applications                          usr/share
 # install-files/gnome-session/*                       usr/share/gnome-session/sessions
 install-files/gnome-shell                           usr/share
 install-files/lightdm.conf.d                        etc/lightdm
-install-files/schemas/applications-overview-tooltip/*  usr/share/gnome-shell/extensions/applications-overview-tooltip@RaphaelRochet/schemas
+# install-files/schemas/applications-overview-tooltip/*  usr/share/gnome-shell/extensions/applications-overview-tooltip@RaphaelRochet/schemas
 # d-2-p and p-osd's schemas stay in system schemas if installed as debs, but as
 #   of 2022-04-01 the deb packages are not comaptible with GNOME 42.beta. So it
 #   might be necessary to manually install these extensions if the packages don't
