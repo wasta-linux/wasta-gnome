@@ -133,6 +133,9 @@ sleep-inactive-battery-timeout = 1800
 #app-picker-view = 1
 favorite-apps = ['shutdown-for-wasta-gnome.desktop', 'firefox.desktop', 'org.gnome.Nautilus.desktop', 'libreoffice-writer.desktop', 'wasta-backup.desktop', 'wasta-resources.desktop']
 
+[org.gnome.shell.extensions.applications-overview-tooltip:wasta-gnome]
+borders = false
+
 [org.gnome.shell.extensions.dash-to-panel:wasta-gnome]
 appicon-margin = 4
 dot-color-1 = '#1e90ff'
