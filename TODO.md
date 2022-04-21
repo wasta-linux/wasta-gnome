@@ -1,9 +1,9 @@
-- [ ] Consider splitting out packages for each gnome-shell-extension.
-  - [ ] applications-overview-tooltip
-  - [x] dash-to-panel (needs testing)
-  - [ ] drive-menu
+- Split out packages for each gnome-shell-extension.
+  - [x] applications-overview-tooltip
+  - [x] dash-to-panel
+  - [x] drive-menu (needs testing)
   - [ ] panel-osd
-  - [ ] windowIsReady_Remover
+  - [x] windowIsReady_Remover
   - See http://fr.archive.ubuntu.com/ubuntu/pool/main/g/gnome-shell-extension-appindicator/gnome-shell-extension-appindicator_42-2~fakesync1_all.deb
   - Figure out how to create XML file for glib-2.0/schemas/org.gnome.shell.extensions.EXTENSION-NAME.gschema.xml
 - Update GNOME-related packages (gnome-shell v42) when functional (use debs if available, otherwise zips):
@@ -20,15 +20,20 @@
 
 ### Add packaged extension schemas to gsettings?
 
-
 ### Tests
-1. Verify that app-folders get reset if arbitrarily set to "['Utilities', 'YaST']".
-```bash
-# After login:
-$ gsettings set org.gnome.desktop.app-folders folder-children "['Utilities', 'YaST']"
-$ gnome-session-quit --logout
-# After re-login:
-$ gesttings get org.gnome.desktop.app-folders folder-children
-['Graphics', 'AudioVideo', 'Network', 'Office', 'Development', 'System', 'Settings', 'Utility', 'Game', 'Education', 'Wasta']
-```
-1. Verify that gsettings changes get propagated.
+1. Verify that extensions work.
+  - applications-overview-tooltip
+    - hover mouse over app icons in the apps overlay to see tooltip
+  - dash-to-panel
+    - verify that dash+panel appears on bottom
+    - verify that Wasta logo and default favorites appear in panel
+  - desktop-icons-ng
+    - copy a file to the desktop to see if the icon appears
+  - drive-menu
+    - insert USB device and verify that the icon appears in the panel
+  - ubuntu-appindicators
+    - launch zim [?] to see if indicator appears
+  - window-is-ready-remover
+    - open an app window and verify that no "_ is ready" popup appears
+1. Verify that Wasta GNOME dconf customizations are applied.
+  - verify blue underline for app icons, e.g.
