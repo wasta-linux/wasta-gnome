@@ -2,14 +2,14 @@
   - [x] applications-overview-tooltip
   - [x] dash-to-panel
   - [x] drive-menu (needs testing)
-  - [ ] panel-osd
+  - [x] better-osd
   - [x] windowIsReady_Remover
   - See http://fr.archive.ubuntu.com/ubuntu/pool/main/g/gnome-shell-extension-appindicator/gnome-shell-extension-appindicator_42-2~fakesync1_all.deb
   - Figure out how to create XML file for glib-2.0/schemas/org.gnome.shell.extensions.EXTENSION-NAME.gschema.xml
 - Update GNOME-related packages (gnome-shell v42) when functional (use debs if available, otherwise zips):
   - [ ] filemanager-actions (deb-only)
   - [x] dash-to-panel (2022-04-20: ZIP, ext. v48)
-  - [ ] panel-osd
+  - [ ] better-osd (2022-04-20: ZIP, ext. v6 not compatible with GNOME 42)
 - Ensure that GDM gets properly reset if wasta-gnome is uninstalled.
   - [ ] reset login screen background color and image
 - Set lightdm to "conflicts"?
