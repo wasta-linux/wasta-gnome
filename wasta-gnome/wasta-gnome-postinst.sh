@@ -134,6 +134,27 @@ echo
 #         chmod 644 "/home/$user/.config/filemanager-actions/filemanager-actions.conf"
 #     fi
 # done <<< "$users"
+# filemanager-actions no longer available in 22.04. Use Nautilus Scripts instead.
+users=$(find /home/* -maxdepth 0 -type d | cut -d '/' -f3)
+scripts=$(find "${DIR}/nautilus-scripts" -type f -print0)
+# Add scripts for existing users.
+while read -r user; do
+    if [[ $(grep "$user:" /etc/passwd) ]]; then
+        # Create symlinks for scripts.
+		user_scripts="/home/${user}/.local/share/nautilus/scripts"
+		sudo --user="$user" mkdir -p "$user_scripts"
+		echo "$scripts" | while read -d $'\0' -r script; do
+			ln -s "$script" "${user_scripts}/$(basename "$script")"
+		done
+		chown "$user":"$user" "${user_scripts}/"*
+    fi
+done <<< "$users"
+# Add scripts for future users.
+sys_scripts="/etc/skel/.local/share/nautilus/scripts"
+mkdir -p "$sys_scripts"
+echo "$scripts" | while read -d $'\0' -r script; do
+	ln -s "$script" "${sys_scripts}/$(basename "$script")"
+done
 
 echo
 echo "*** Need to reboot for changes to take effect."

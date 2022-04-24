@@ -7,7 +7,10 @@
   - See http://fr.archive.ubuntu.com/ubuntu/pool/main/g/gnome-shell-extension-appindicator/gnome-shell-extension-appindicator_42-2~fakesync1_all.deb
   - Figure out how to create XML file for glib-2.0/schemas/org.gnome.shell.extensions.EXTENSION-NAME.gschema.xml
 - Update GNOME-related packages (gnome-shell v42) when functional (use debs if available, otherwise zips):
-  - [ ] filemanager-actions (deb-only)
+  - [x] Nautilus Scripts [was filemanager-actions (deb-only)] << needs testing
+    - Nautilus Scripts seems like an okay replacement, but only supports user-level scripts.
+    - https://help.ubuntu.com/community/NautilusScriptsHowto
+    - They would have to be installed in all existing users, as well as in /etc/skel.
   - [x] dash-to-panel (2022-04-20: ZIP, ext. v48)
   - [ ] better-osd (2022-04-20: ZIP, ext. v6 not compatible with GNOME 42)
 - Ensure that GDM gets properly reset if wasta-gnome is uninstalled.
