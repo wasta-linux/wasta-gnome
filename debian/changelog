@@ -1,3 +1,9 @@
+wasta-gnome (22.04.0.1) jammy; urgency=medium
+
+  * Update dependency version for gnome-shell-extension-dash-to-panel
+
+ -- Nate Marti <nate_marti@sil.org>  Tue, 26 Apr 2022 17:39:47 +0100
+
 wasta-gnome (22.04.0) jammy; urgency=medium
 
   * Initial build for jammy.
