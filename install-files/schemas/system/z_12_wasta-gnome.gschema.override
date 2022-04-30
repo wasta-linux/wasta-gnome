@@ -41,13 +41,12 @@ click-method = 'fingers'
 disable-while-typing = true
 natural-scroll = true
 tap-to-click = true
-#scroll-method = 'two-finger-scrolling'
+two-finger-scrolling-enabled = true
 
 [org.gnome.desktop.privacy:wasta-gnome]
 recent-files-max-age = 30
-
-[org.gnome.desktop.screensaver:wasta-gnome]
-#picture-uri = 'file:///usr/share/backgrounds/wasta/fabien-bazanegue-unsplash-wasta.jpg'
+report-technical-problems = false
+send-software-usage-stats = false
 
 [org.gnome.desktop.sound:wasta-gnome]
 event-sounds = false
@@ -87,11 +86,6 @@ focus-change-on-pointer-rest = true
 [org.gtk.Settings.FileChooser:wasta-gnome]
 sort-directories-first = true
 
-#[org.gnome.nautilus.desktop:wasta-gnome] <-- deprecated in 20.04; use extension "desktop-icons" instead
-#home-icon-visible = false
-#trash-icon-visible = false
-#volumes-visible = false
-
 [org.gnome.nautilus.icon-view:wasta-gnome]
 default-zoom-level = 'small'
 
@@ -113,25 +107,15 @@ start-with-sidebar = true
 home = ['<Super>e']
 
 [org.gnome.settings-daemon.plugins.power:wasta-gnome]
-#button-power = 'interactive'
 #button-sleep = 'suspend'
-#critical-battery-action = 'suspend'
-power-saver-profile-on-low-battery = true
-lid-close-suspend-with-external-monitor = true
-#percentage-action = 5
-#percentage-critical = 10
-#percentage-low = 15
+lid-close-suspend-with-external-monitor = false
 power-button-action = 'interactive'
+power-saver-profile-on-low-battery = true
 sleep-inactive-battery-timeout = 1800
-#use-time-for-policy = false
-
-#[org.gnome.settings-daemon.plugins.xsettings:wasta-gnome]
-#antialiasing = 'rgba'
 
 
 ### GNOME Shell & Extensions ###
 [org.gnome.shell:wasta-gnome]
-#app-picker-view = 1
 favorite-apps = ['shutdown-for-wasta-gnome.desktop', 'firefox.desktop', 'org.gnome.Nautilus.desktop', 'libreoffice-writer.desktop', 'wasta-backup.desktop', 'wasta-resources.desktop']
 
 [org.gnome.shell.extensions.applications-overview-tooltip:wasta-gnome]
@@ -170,13 +154,14 @@ trans-use-custom-opacity = true
 trans-use-dynamic-opacity = true
 tray-padding = 6
 window-preview-padding = 6
-window-preview-show-title = false
+window-preview-show-title = true
 window-preview-size = 200
 
 [org.gnome.shell.extensions.ding:wasta-gnome]
 icon-size = 'small'
 show-home = false
 show-trash = false
+start-corner = 'top-left'
 
 [org.gnome.shell.extensions.panel-osd:wasta-gnome]
 x-pos = 100.0
