@@ -31,7 +31,8 @@ use-custom-font = true
 folder-children = ['Graphics', 'AudioVideo', 'Network', 'Office', 'Development', 'System', 'Settings', 'Utility', 'Game', 'Education', 'Wasta']
 
 [org.gnome.desktop.interface:wasta-gnome]
-#gtk-theme = 'Arc-Darker'
+gtk-theme = 'Yaru-blue'
+icon-theme = 'Yaru-blue'
 show-battery-percentage = true
 enable-hot-corners = false
 
