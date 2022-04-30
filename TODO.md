@@ -1,11 +1,3 @@
-- Split out packages for each gnome-shell-extension.
-  - [x] applications-overview-tooltip
-  - [x] dash-to-panel
-  - [x] drive-menu (needs testing)
-  - [x] better-osd
-  - [x] windowIsReady_Remover
-  - See http://fr.archive.ubuntu.com/ubuntu/pool/main/g/gnome-shell-extension-appindicator/gnome-shell-extension-appindicator_42-2~fakesync1_all.deb
-  - Figure out how to create XML file for glib-2.0/schemas/org.gnome.shell.extensions.EXTENSION-NAME.gschema.xml
 - Update GNOME-related packages (gnome-shell v42) when functional (use debs if available, otherwise zips):
   - [x] Nautilus Scripts [was filemanager-actions (deb-only)] << needs testing
     - Nautilus Scripts seems like an okay replacement, but only supports user-level scripts.
@@ -20,8 +12,6 @@
 - Enable support for Wayland
   - [x] add proper .desktop file to /usr/share/wayland-sessions
   - [x] ensure that /etc/gdm3/custom.conf does not have WaylandEnable=false
-
-### Add packaged extension schemas to gsettings?
 
 ### Tests
 1. Verify that extensions work.
