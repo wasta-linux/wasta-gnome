@@ -1,18 +1,8 @@
 install-files/applications                          usr/share
-# install-files/dconf                                 etc
-# install-files/dbus-services/*                       usr/share/dbus-1/services
-# install-files/file-manager/filemanager-actions.conf etc/skel/.config/filemanager-actions
-# install-files/file-manager/actions                  usr/share/file-manager
 # install-files/gnome-session/*                       usr/share/gnome-session/sessions
 install-files/gnome-shell                           usr/share
 install-files/lightdm.conf.d                        etc/lightdm
-# install-files/schemas/applications-overview-tooltip/*  usr/share/gnome-shell/extensions/applications-overview-tooltip@RaphaelRochet/schemas
-# d-2-p and p-osd's schemas stay in system schemas if installed as debs, but as
-#   of 2022-04-01 the deb packages are not comaptible with GNOME 42.beta. So it
-#   might be necessary to manually install these extensions if the packages don't
-#   get updated by release time (and therefore use the non-system schemas).
-# install-files/schemas/dash-to-panel/*               usr/share/gnome-shell/extensions/dash-to-panel@jderose9.github.com/schemas
-# install-files/schemas/panel-osd/*                   usr/share/gnome-shell/extensions/panel-osd@berend.de.schouwer.gmail.com/schemas
+
 install-files/schemas/system/*                      usr/share/glib-2.0/schemas
 install-files/sessions/wasta-gnome.desktop          usr/share/wayland-sessions
 install-files/sessions/wasta-gnome-wayland.desktop  usr/share/wayland-sessions
