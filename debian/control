@@ -2,7 +2,7 @@ Source: wasta-gnome
 Section: utils
 Priority: optional
 Maintainer: Nate Marti <nate_marti@sil.org>
-Build-Depends: debhelper (>= 10.0.0)
+Build-Depends: debhelper-compat (= 13)
 Standards-Version: 4.4.0
 Homepage: https://github.com/wasta-linux/wasta-gnome/tree/jammy
 
