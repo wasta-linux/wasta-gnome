@@ -3,8 +3,12 @@
     - Nautilus Scripts seems like an okay replacement, but only supports user-level scripts.
     - https://help.ubuntu.com/community/NautilusScriptsHowto
     - They would have to be installed in all existing users, as well as in /etc/skel.
-  - [x] dash-to-panel (2022-04-20: ZIP, ext. v48)
-  - [ ] better-osd (2022-04-20: ZIP, ext. v6 not compatible with GNOME 42)
+  - [x] applications-overview-tooltip (2022-15-18: custom DEB, ext. v14)
+  - [x] dash-to-panel (2022-04-20: custom DEB v43, ext. v48)
+  - [x] ding (2022-05-19: ubuntu DEB)
+  - [x] drive-menu (2022-05-18: custom DEB, ext. v51)
+  - [ ] notification-banner-reloaded (2022-05-18: custom DEB, ext. v4)
+  - [x] window-is-ready (2022-05-18: custom DEB, ext. v13)
 - Ensure that GDM gets properly reset if wasta-gnome is uninstalled.
   - [ ] reset login screen background color and image
 - Set lightdm to "conflicts"?
