@@ -59,8 +59,8 @@ if [[ -f "${gdm_custom_conf}.orig" ]]; then
 fi
 
 # Remove PostLogin script.
-gdm_default=/etc/gdm3/PostLogin/Default
-rm -f $gdm_default
+# gdm_default=/etc/gdm3/PostLogin/Default
+# rm -f $gdm_default
 
 echo
 echo "*** Need to reboot for changes to take effect."

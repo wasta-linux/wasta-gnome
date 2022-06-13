@@ -1,3 +1,9 @@
+wasta-gnome (22.04.0.6) jammy; urgency=medium
+
+  * Add click-to-close-overview extension.
+
+ -- Nate Marti <nate_marti@sil.org>  Mon, 13 Jun 2022 16:55:01 +0100
+
 wasta-gnome (22.04.0.5) jammy; urgency=medium
 
   * Move notification panel to bottom right.
