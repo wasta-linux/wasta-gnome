@@ -3,6 +3,7 @@
     "debugFlags": ["backtrace-crashes-all"],
     "enabledExtensions": [
         "applications-overview-tooltip@RaphaelRochet",
+        "click-to-close-overview@l3nn4rt.github.io",
         "dash-to-panel@jderose9.github.com",
         "ding@rastersoft.com",
         "drive-menu@gnome-shell-extensions.gcampax.github.com",

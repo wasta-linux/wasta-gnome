@@ -1,3 +1,9 @@
+wasta-gnome (22.04.0.7) jammy; urgency=medium
+
+  * Add missing extension to wasta mode.
+
+ -- Nate Marti <nate_marti@sil.org>  Tue, 14 Jun 2022 21:27:01 +0100
+
 wasta-gnome (22.04.0.6) jammy; urgency=medium
 
   * Add click-to-close-overview extension.
