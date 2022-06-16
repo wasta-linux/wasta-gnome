@@ -201,19 +201,21 @@ case $LANG in
 esac
 
 # Check if Zenity is installed
-if [[ ! ZENITY=$(which zenity) ]]; then
+ZENITY=$(which zenity)
+if [[ -z $ZENITY ]]; then
 	echo "$error_zenity"
 	exit 1
 fi
 
 # Check if Ghostscript is installed
-if [[ ! GS=$(which gs) ]]; then
+GS=$(which gs)
+if [[ -z $GS ]]; then
 	$ZENITY --error --title="Compress PDF $VERSION" --text="$error_ghostscript"
 	exit 1
 fi
 
 # Check if the user has selected any files
-if [[ "x$NAUTILUS_SCRIPT_SELECTED_FILE_PATHS" = "x"  -o  "$#" = "0" ]]; then # we double check. Remove the first part if you plan to manually invoke the script
+if [[ "x$NAUTILUS_SCRIPT_SELECTED_FILE_PATHS" = "x" && "$#" = "0" ]];
 	$ZENITY --error --title="Compress PDF $VERSION" --text="$error_nofiles"
 	exit 1
 fi
