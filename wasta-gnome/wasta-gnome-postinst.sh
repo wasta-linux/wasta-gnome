@@ -136,14 +136,14 @@ echo
 # done <<< "$users"
 # filemanager-actions no longer available in 22.04. Use Nautilus Scripts instead.
 users=$(find /home/* -maxdepth 0 -type d | cut -d '/' -f3)
-scripts=$(find "${DIR}/nautilus-scripts" -type f -print0)
+scripts=$(find "${DIR}/nautilus-scripts" -type f)
 # Add scripts for existing users.
 while read -r user; do
     if [[ $(grep "$user:" /etc/passwd) ]]; then
         # Create symlinks for scripts.
 		user_scripts="/home/${user}/.local/share/nautilus/scripts"
 		sudo --user="$user" mkdir -p "$user_scripts"
-		echo "$scripts" | while read -d $'\0' -r script; do
+		echo "$scripts" | while read -d $'\n' -r script; do
 			ln -s "$script" "${user_scripts}/$(basename "$script")"
 		done
 		chown "$user":"$user" "${user_scripts}/"*
