@@ -96,22 +96,24 @@ echo "*** Updating dconf / gsettings default values"
 echo
 
 # Updating dconf before GNOME schemas because they depend on its entries.
+# jammy: Not needed when not creating app groups.
 # dconf update
 
 # GNOME Extension schemas: separate location from System schemas (compile if individual schemas folders exist).
-extensions_schemas=(
-	/usr/share/gnome-shell/extensions/applications-overview-tooltip@RaphaelRochet/schemas/
-	/usr/share/gnome-shell/extensions/dash-to-panel@jderose9.github.com/schemas/
-	/usr/share/gnome-shell/extensions/drive-menu@gnome-shell-extensions.gcampax.github.com/schemas/
-	/usr/share/gnome-shell/extensions/ding@rastersoft.com/schemas/
-	/usr/share/gnome-shell/extensions/panel-osd@berend.de.schouwer.gmail.com/schemas/
-	/usr/share/gnome-shell/extensions/windowIsReady_Remover@nunofarruca@gmail.com/schemas/
-)
-for schema in "${extensions_schemas[@]}"; do
-	if [[ -d "$schema" ]]; then
-		glib-compile-schemas "$schema" >/dev/null 2>&1 || true;
-	fi
-done
+# jammy: Not needed when adding extensions as individual debs.
+# extensions_schemas=(
+# 	/usr/share/gnome-shell/extensions/applications-overview-tooltip@RaphaelRochet/schemas/
+# 	/usr/share/gnome-shell/extensions/dash-to-panel@jderose9.github.com/schemas/
+# 	/usr/share/gnome-shell/extensions/drive-menu@gnome-shell-extensions.gcampax.github.com/schemas/
+# 	/usr/share/gnome-shell/extensions/ding@rastersoft.com/schemas/
+# 	/usr/share/gnome-shell/extensions/panel-osd@berend.de.schouwer.gmail.com/schemas/
+# 	/usr/share/gnome-shell/extensions/windowIsReady_Remover@nunofarruca@gmail.com/schemas/
+# )
+# for schema in "${extensions_schemas[@]}"; do
+# 	if [[ -d "$schema" ]]; then
+# 		glib-compile-schemas "$schema" >/dev/null 2>&1 || true;
+# 	fi
+# done
 
 # MAIN System schemas: we have placed our override file in this directory
 # Sending any "error" to null (if key not found don't want to worry user)
@@ -124,6 +126,7 @@ echo
 echo "*** Setting initial Nautilus config"
 echo
 # filemanager-actions has no system config file, so copy user config to all
+# jammy: filemanager-actions no longer available in 22.04. Use Nautilus Scripts instead.
 #	existing users' .config folders.
 # users=$(find /home/* -maxdepth 0 -type d | cut -d '/' -f3)
 # while IFS= read -r user; do
@@ -134,7 +137,6 @@ echo
 #         chmod 644 "/home/$user/.config/filemanager-actions/filemanager-actions.conf"
 #     fi
 # done <<< "$users"
-# filemanager-actions no longer available in 22.04. Use Nautilus Scripts instead.
 users=$(find /home/* -maxdepth 0 -type d | cut -d '/' -f3)
 scripts=$(find "${DIR}/nautilus-scripts" -type f)
 # Add scripts for existing users.
