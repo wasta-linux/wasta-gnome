@@ -2,6 +2,7 @@
 # Autor: Thiago Silva
 # Contact: thiagos.dasilva@gmail.com
 # URL: https://github.com/thiggy01/ubuntu-20.04-change-gdm-background
+# Updated by Nate Marti, 2022.
 # =================================================================== #
 
 # Check if script is run by root.
@@ -29,19 +30,19 @@ fi
 
 # Restore backup function.
 restore () {
-mv "$gdm3Resource~" "$gdm3Resource"
-if [ "$?" -eq 0 ]; then
-    chmod 644 "$gdm3Resource"
-    echo 'GDM background sucessfully restored.'
-    read -p 'Do you want to restart gdm to apply change? (y/n):' -n 1
-	echo
-	if [[ "$REPLY" =~ ^[yY]$ ]]; then
-	    service gdm restart
-	else
-	    echo 'Restart GDM service to apply change.'
-	    exit 0
-	fi
-fi
+    mv "$gdm3Resource~" "$gdm3Resource"
+    if [ "$?" -eq 0 ]; then
+        chmod 644 "$gdm3Resource"
+        echo 'GDM background sucessfully restored.'
+        read -p 'Do you want to restart gdm to apply change? (y/n):' -n 1
+    	echo
+    	if [[ "$REPLY" =~ ^[yY]$ ]]; then
+    	    service gdm restart
+    	else
+    	    echo 'Restart GDM service to apply change.'
+    	    exit 0
+    	fi
+    fi
 }
 
 # Restore the original gdm3 theme.
@@ -51,61 +52,25 @@ fi
 gdm3xml=$(basename "$gdm3Resource").xml
 workDir="/tmp/gdm3-theme"
 
-# Create directories from resource list.
-CreateDirs() {
-for resource in `gresource list "$gdm3Resource~"`; do
-    resource="${resource#\/org\/gnome\/shell\/}"
-    if [ ! -d "$workDir"/"${resource%/*}" ]; then
-      mkdir -p "$workDir"/"${resource%/*}"
-    fi
-done
-}
-
-# Extract resources from binary file.
-ExtractRes() {
-for resource in `gresource list "$gdm3Resource~"`; do
-    gresource extract "$gdm3Resource~" "$resource" > \
-    "$workDir"/"${resource#\/org\/gnome\/shell\/}"
-done
-}
-
-# Compile resources into a gresource binary file.
-CompileMoveRes() {
-glib-compile-resources --sourcedir=$workDir/theme/ $workDir/theme/"$gdm3xml"
-# Move the generated binary file to the gnome-shell folder.
-mv $workDir/theme/gnome-shell-theme.gresource $gdm3Resource
-}
-
-# Check if gresource was sucessfuly moved to its default folder.
-Check() {
-if [ "$?" -eq 0 ]; then
-# Solve a permission change issue (thanks to @huepf from github).
-    chmod 644 "$gdm3Resource"
-    echo 'GDM background sucessfully changed.'
-    # Require reboot to ensure gdm3 is eventually restarted.
-    echo "*** System restart required ***" > /var/run/reboot-required
-else
-    # If something went wrong, restore backup file.
-    echo 'Something went wrong.'
-    restore
-    echo 'No changes were applied.'
-fi
-}
-
-CleanUp() {
-    # Remove temporary directories and files.
-    rm -rf "$workDir"
-    exit 0
-}
-
 # Change background colors.
 # Store selected background color.
 BgColor="#3C3C3C"
 LoginTextColor="#1D1D1D"
 LoginBgColor="#F7F7F7"
 
-CreateDirs
-ExtractRes
+# Create working dirs.
+for resource in `gresource list "$gdm3Resource~"`; do
+    resource="${resource#\/org\/gnome\/shell\/}"
+    if [ ! -d "$workDir"/"${resource%/*}" ]; then
+      mkdir -p "$workDir"/"${resource%/*}"
+    fi
+done
+
+# Extract resources into working dirs.
+for resource in `gresource list "$gdm3Resource~"`; do
+    gresource extract "$gdm3Resource~" "$resource" > \
+    "$workDir"/"${resource#\/org\/gnome\/shell\/}"
+done
 
 # Change gdm background to the color you submited.
 oldBg="#lockDialogGroup \{.*?\}"
@@ -131,11 +96,24 @@ done
 echo '    </gresource>
 </gresources>' >> "$workDir"/theme/"$gdm3xml"
 
-# Compile and move gresoure.
-CompileMoveRes
+# Compile resources into a gresource binary file.
+glib-compile-resources --sourcedir=$workDir/theme/ $workDir/theme/"$gdm3xml"
+# Move the generated binary file to the gnome-shell folder.
+mv $workDir/theme/gnome-shell-theme.gresource $gdm3Resource
 
-# Check if everything was sucessfull.
-Check
+# Check if gresource was sucessfuly moved to its default folder.
+if [ "$?" -eq 0 ]; then
+    # Solve a permission change issue (thanks to @huepf from github).
+    chmod 644 "$gdm3Resource"
+    echo '*** GDM background sucessfully changed.'
+    # Require reboot to ensure gdm3 is eventually restarted.
+    echo "*** System restart required ***" > /var/run/reboot-required
+else
+    # If something went wrong, restore backup file.
+    echo 'Something went wrong.'
+    restore
+    echo 'No changes were applied.'
+fi
 
 # Remove temporary files and exit.
-CleanUp
+rm -rf "$workDir"
