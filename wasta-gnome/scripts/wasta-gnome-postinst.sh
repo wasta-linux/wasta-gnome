@@ -64,7 +64,7 @@ EOF
 
 	# Change GDM3 greeter background color.
 	#	Ref: https://github.com/thiggy01/change-gdm-background/blob/master/change-gdm-background
-	/usr/share/wasta-gnome/change-gdm3-background.sh '#3C3C3C'
+	/usr/share/wasta-gnome/scripts/change-gdm3-background.sh '#3C3C3C'
 
 	# Copy wasta-login.sh to GDM3 PostLogin/Default.
 	#gdm_default=/etc/gdm3/PostLogin/Default
