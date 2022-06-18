@@ -101,92 +101,24 @@ CleanUp() {
 # Change background colors.
 # Store selected background color.
 BgColor="#3C3C3C"
-StTextColor="#1D1D1D"
-StBgColor="#F7F7F7"
+LoginTextColor="#1D1D1D"
+LoginBgColor="#F7F7F7"
 
 CreateDirs
 ExtractRes
 
 # Change gdm background to the color you submited.
 oldBg="#lockDialogGroup \{.*?\}"
-# newBg="#lockDialogGroup {
-# background: $BgColor;
-# background-size: cover; }"
 newBg="#lockDialogGroup {
   background-color: $BgColor; }"
 perl -i -0777 -pe "s/$oldBg/$newBg/s" "$workDir"/theme/gdm.css
 
 # Change gdm text entry background and text colors.
-oldStEntry="StEntry \{.*?\}"
-newStEntry="StEntry {
-  min-height: 22px;
-  border-radius: 6px;
-  padding: 8px;
-  border-width: 1px;
+oldLoginEntry=".login-dialog StEntry \{.*?\}"
+newLoginEntry=".login-dialog StEntry {
   color: $StTextColor;
-  background-color: $StBgColor;
-  color: rgba(247, 247, 247, 0.7);
-  border: 1px solid #464646;
-  selection-background-color: #E95420;
-  selected-color: #FFFFFF; }
-  StEntry:hover {
-    background-color: $StBgColor;
-    border-color: #535353;
-    color: $StTextColor; }
-  StEntry:focus {
-    background-color: $StBgColor;
-    border-color: #ef8661;
-    box-shadow: 0 0 0 1px #ef8661 inset;
-    color: $StTextColor; }
-  StEntry:insensitive {
-    background-color: #2c2c2c;
-    border-color: #2c2c2c;
-    color: #8a8a8a; }
-  StEntry StIcon.capslock-warning {
-    icon-size: 16px;
-    warning-color: #f99b11;
-    padding: 0 4px; }
-  StEntry StIcon.peek-password {
-    icon-size: 1.09em;
-    padding: 0 4px; }
-  StEntry StLabel.hint-text {
-    margin-left: 2px;
-    color: rgba(247, 247, 247, 0.7); }; }"
-perl -i -0777 -pe "s/$oldStEntry/$newStEntry/s" "$workDir"/theme/gdm.css
-# StEntry {
-#   min-height: 22px;
-#   border-radius: 6px;
-#   padding: 8px;
-#   border-width: 1px;
-#   color: #F7F7F7;
-#   background-color: #1d1d1d;
-#   color: rgba(247, 247, 247, 0.7);
-#   border: 1px solid #464646;
-#   selection-background-color: #E95420;
-#   selected-color: #FFFFFF; }
-#   StEntry:hover {
-#     background-color: #1d1d1d;
-#     border-color: #535353;
-#     color: #F7F7F7; }
-#   StEntry:focus {
-#     background-color: #1d1d1d;
-#     border-color: #ef8661;
-#     box-shadow: 0 0 0 1px #ef8661 inset;
-#     color: #F7F7F7; }
-#   StEntry:insensitive {
-#     background-color: #2c2c2c;
-#     border-color: #2c2c2c;
-#     color: #8a8a8a; }
-#   StEntry StIcon.capslock-warning {
-#     icon-size: 16px;
-#     warning-color: #f99b11;
-#     padding: 0 4px; }
-#   StEntry StIcon.peek-password {
-#     icon-size: 1.09em;
-#     padding: 0 4px; }
-#   StEntry StLabel.hint-text {
-#     margin-left: 2px;
-#     color: rgba(247, 247, 247, 0.7); }
+  background-color: $StBgColor; }"
+perl -i -0777 -pe "s/$oldLoginEntry/$newLoginEntry/s" "$workDir"/theme/gdm.css
 
 # Generate the gresource xml file.
 echo '<?xml version="1.0" encoding="UTF-8"?>
