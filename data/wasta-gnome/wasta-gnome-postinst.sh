@@ -78,9 +78,9 @@ fi
 
 # Add Wasta icon to slick-greeter desktop entry if slick-greeter is installed.
 badges_dir=/usr/share/slick-greeter/badges
-wasta_gnome_badge=/usr/share/slick-greeter/badges/wasta-gnome.png
+wasta_gnome_badge=${badges_dir}/wasta-gnome.svg
 if [[ -d $badges_dir ]] && [[ ! -e $wasta_gnome_badge ]]; then
-	cp -l /usr/share/wasta-multidesktop/resources/wl-round-22.png "$wasta_gnome_badge"
+	cp -l /usr/share/wasta-multidesktop/resources/wl-round-22.svg "$wasta_gnome_badge"
 fi
 
 # Disable gnome-screensaver by default (re-enabled at wasta-gnome session login).
@@ -137,26 +137,36 @@ echo
 #         chmod 644 "/home/$user/.config/filemanager-actions/filemanager-actions.conf"
 #     fi
 # done <<< "$users"
+
+# Update config for existing users.
 users=$(find /home/* -maxdepth 0 -type d | cut -d '/' -f3)
-scripts=$(find "${DIR}/nautilus-scripts" -type f)
-# Add scripts for existing users.
+src_scripts_dir=${DIR}/nautilus-scripts
+src_templates_dir="${DIR}/Templates"
 while read -r user; do
     if [[ $(grep "$user:" /etc/passwd) ]]; then
-        # Create symlinks for scripts.
-		user_scripts="/home/${user}/.local/share/nautilus/scripts"
-		sudo --user="$user" mkdir -p "$user_scripts"
-		echo "$scripts" | while read -d $'\n' -r script; do
-			ln -s "$script" "${user_scripts}/$(basename "$script")"
-		done
-		chown "$user":"$user" "${user_scripts}/"*
+        # Copy scripts.
+		user_scripts_dir="/home/${user}/.local/share/nautilus/scripts"
+		sudo --user="$user" mkdir --parents "$user_scripts_dir"
+		# Don't copy any files that already exist; user may have updated them.
+		cp --no-clobber --recursive "${src_scripts_dir}/"* "$user_scripts_dir"
+		chown --recursive $user:$user "$user_scripts_dir"
+
+		# Copy templates.
+		user_templates_dir="$(sudo --user="$user" xdg-user-dir TEMPLATES)"
+		sudo --user="$user" mkdir --parents "$user_templates_dir"
+		# Don't copy any files that already exist; user may have updated them.
+		cp --no-clobber --recursive "${src_templates_dir}/"* "$user_templates_dir"
+		chown --recursive $user:$user "$user_templates_dir"
     fi
 done <<< "$users"
-# Add scripts for future users.
-sys_scripts="/etc/skel/.local/share/nautilus/scripts"
-mkdir -p "$sys_scripts"
-echo "$scripts" | while read -d $'\0' -r script; do
-	ln -s "$script" "${sys_scripts}/$(basename "$script")"
-done
+
+# Update config for future users.
+sys_scripts_dir="/etc/skel/.local/share/nautilus/scripts"
+mkdir --parents "$sys_scripts_dir"
+cp --recursive "${src_scripts_dir}/"* "$sys_scripts_dir"
+sys_templates_dir="/etc/skel/Templates"
+mkdir --parents "$sys_templates_dir"
+cp --recursive "${src_templates_dir}/"* "$sys_templates_dir"
 
 echo
 echo "*** Need to reboot for changes to take effect."

@@ -1,11 +1,10 @@
-install-files/applications                          usr/share
-# install-files/gnome-session/*                       usr/share/gnome-session/sessions
-install-files/gnome-shell                           usr/share
-install-files/lightdm.conf.d                        etc/lightdm
-
-install-files/schemas/system/*                      usr/share/glib-2.0/schemas
-install-files/sessions/wasta-gnome.desktop          usr/share/wayland-sessions
-install-files/sessions/wasta-gnome-wayland.desktop  usr/share/wayland-sessions
-install-files/sessions/wasta-gnome.desktop          usr/share/xsessions
-install-files/sessions/wasta-gnome-xorg.desktop     usr/share/xsessions
-wasta-gnome                                         usr/share
+data/applications/*                        usr/share/applications
+data/gnome-shell/modes/*                   usr/share/gnome-shell/modes
+data/lightdm.conf.d/*                      etc/lightdm/lightdm.conf.d
+data/schemas/system/*                      usr/share/glib-2.0/schemas
+data/sessions/wasta-gnome.desktop          usr/share/wayland-sessions
+data/sessions/wasta-gnome-wayland.desktop  usr/share/wayland-sessions
+data/sessions/wasta-gnome.desktop          usr/share/xsessions
+data/sessions/wasta-gnome-xorg.desktop     usr/share/xsessions
+data/templates/*                           etc/skel/Templates
+data/wasta-gnome                           usr/share
