@@ -23,6 +23,6 @@ Depends: gdm3,
  nautilus-image-converter,
  wasta-multidesktop,
  ${misc:Depends}
-Recommends: bookletimposer, wasta-vertex-ubuntu
+Recommends: bookletimposer
 Description: Wasta-Linux GNOME for Ubuntu 22.04 Jammy
  Wasta-Linux 22.04 Jammy GNOME core configuration.
