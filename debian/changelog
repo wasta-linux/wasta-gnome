@@ -1,3 +1,9 @@
+wasta-gnome (22.04.1) jammy; urgency=medium
+
+  * Clean up session list for lightdm login.
+
+ -- Nate Marti <nate_marti@sil.org>  Sat, 18 Jun 2022 21:52:01 +0100
+
 wasta-gnome (22.04.0.9) jammy; urgency=medium
 
   * Updaing GDM login CSS.

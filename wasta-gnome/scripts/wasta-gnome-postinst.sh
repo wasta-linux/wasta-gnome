@@ -38,6 +38,8 @@ DIR=/usr/share/wasta-gnome
 # General initial config
 # ------------------------------------------------------------------------------
 
+echo "*** Setting initial config for gdm/lightdm"
+
 # Set GDM3 default config.
 if [[ -e /etc/gdm3 ]]; then
 	# Enable GDM3 debug logs (to capture session names).
@@ -66,13 +68,47 @@ EOF
 	/usr/share/wasta-gnome/scripts/set-wasta-gdm3-css.sh
 fi
 
-# Add Wasta icon to slick-greeter desktop entry if slick-greeter is installed.
-badges_dir=/usr/share/slick-greeter/badges
-wasta_gnome_badge=${badges_dir}/wasta-gnome.svg
-if [[ -d $badges_dir ]] && [[ ! -e $wasta_gnome_badge ]]; then
-	cp -l /usr/share/wasta-multidesktop/resources/wl-round-22.svg "$wasta_gnome_badge"
+# Set slick-greeter config.
+if [[ -x /usr/sbin/slick-greeter ]]; then
+	# Add Wasta icon to slick-greeter desktop entries.
+	badges_dir=/usr/share/slick-greeter/badges
+	wasta_gnome_badge=${badges_dir}/wasta-gnome.svg
+	wasta_gnome_wayland_badge=${badges_dir}/wasta-gnome-wayland.svg
+	wasta_gnome_xorg_badge=${badges_dir}/wasta-gnome-xorg.svg
+	if [[ ! -e $wasta_gnome_badge ]]; then
+		cp -l /usr/share/wasta-multidesktop/resources/wl-round-22.svg "$wasta_gnome_badge"
+	fi
+	if [[ ! -e $wasta_gnome_wayland_badge ]]; then
+		cp -l /usr/share/wasta-multidesktop/resources/wl-round-22.svg "$wasta_gnome_wayland_badge"
+	fi
+	if [[ ! -e $wasta_gnome_xorg_badge ]]; then
+		cp -l /usr/share/wasta-multidesktop/resources/wl-round-22.svg "$wasta_gnome_xorg_badge"
+	fi
 fi
 
+# Get current display manager; accurate even if not yet active after reconfigure.
+display_manager=$(cat /etc/X11/default-display-manager)
+ubuntu_xsession=/usr/share/xsessions/ubuntu.desktop
+ubuntu_wsession=/usr/share/wayland-sessions/ubuntu.desktop
+wasta_gnome_xsession=/usr/share/xsessions/wasta-gnome.desktop
+wasta_gnome_wsession=/usr/share/wayland-sessions/wasta-gnome.desktop
+# Remove extra desktop entries if lightdm is in use.
+if [[ $display_manager == '/usr/sbin/lightdm' ]]; then
+	if [[ -e $ubuntu_session ]]; then
+		mv ${ubuntu_session}{,.disabled}
+	fi
+	if [[ -e $wasta_gnome_session ]]; then
+		mv ${wasta_gnome_session}{,.disabled}
+	fi
+# Re-enable extra desktop entries if other DMs are in use.
+else
+	if [[ -e ${ubuntu_session}.disabled ]]; then
+		mv ${ubuntu_session}{.disabled,}
+	fi
+	if [[ -e ${wasta_gnome_session}.disabled ]]; then
+		mv ${wasta_gnome_session}{.disabled,}
+	fi
+fi
 # Disable gnome-screensaver by default (re-enabled at wasta-gnome session login).
 #if [[ -e /usr/share/dbus-1/services/org.gnome.ScreenSaver.service ]]; then
 #    mv /usr/share/dbus-1/services/org.gnome.ScreenSaver.service{,.disabled}
@@ -90,7 +126,7 @@ glib-compile-schemas /usr/share/glib-2.0/schemas/ > /dev/null 2>&1 || true;
 # ------------------------------------------------------------------------------
 # Setting initial Nautilus config
 # ------------------------------------------------------------------------------
-echo "*** Setting initial Nautilus config"
+echo "*** Setting initial config for Nautilus"
 
 # Update config for existing users.
 #	 Future user config copied to /etc/skel by debian/install.
