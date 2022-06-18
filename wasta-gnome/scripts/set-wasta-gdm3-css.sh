@@ -116,8 +116,8 @@ perl -i -0777 -pe "s/$oldBg/$newBg/s" "$workDir"/theme/gdm.css
 # Change gdm text entry background and text colors.
 oldLoginEntry=".login-dialog StEntry \{.*?\}"
 newLoginEntry=".login-dialog StEntry {
-  color: $StTextColor;
-  background-color: $StBgColor; }"
+  color: $LoginTextColor;
+  background-color: $LoginBgColor; }"
 perl -i -0777 -pe "s/$oldLoginEntry/$newLoginEntry/s" "$workDir"/theme/gdm.css
 
 # Generate the gresource xml file.
