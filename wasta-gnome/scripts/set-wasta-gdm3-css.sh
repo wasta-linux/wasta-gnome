@@ -1,0 +1,209 @@
+#!/usr/bin/env bash
+# Autor: Thiago Silva
+# Contact: thiagos.dasilva@gmail.com
+# URL: https://github.com/thiggy01/ubuntu-20.04-change-gdm-background
+# =================================================================== #
+
+# Check if script is run by root.
+if [ "$(id -u)" -ne 0 ] ; then
+    echo 'This script must be run as root or with the sudo command.'
+    exit 1
+fi
+
+# Check what linux distro is being used.
+distro="$(lsb_release -c | cut -f 2)"
+if ! [[ "$distro" =~ (focal|groovy|jammy) ]]; then
+    echo 'Sorry, this script only works with focal, groovy, or jammy distros.'
+    exit 1
+fi
+
+# Assign the default gdm theme file path.
+if [ "$(lsb_release -i | awk '{print $3}')" == 'Ubuntu' ]; then
+    gdm3Resource=/usr/share/gnome-shell/theme/Yaru/gnome-shell-theme.gresource
+elif [ "$(lsb_release -i | awk '{print $3}')" == 'Pop' ]; then
+    gdm3Resource=/usr/share/gnome-shell/theme/Pop/gnome-shell-theme.gresource
+fi
+
+# Create a backup file of the original theme if there isn't one.
+[ ! -f "$gdm3Resource"~ ] && cp "$gdm3Resource" "$gdm3Resource~"
+
+# Restore backup function.
+restore () {
+mv "$gdm3Resource~" "$gdm3Resource"
+if [ "$?" -eq 0 ]; then
+    chmod 644 "$gdm3Resource"
+    echo 'GDM background sucessfully restored.'
+    read -p 'Do you want to restart gdm to apply change? (y/n):' -n 1
+	echo
+	if [[ "$REPLY" =~ ^[yY]$ ]]; then
+	    service gdm restart
+	else
+	    echo 'Restart GDM service to apply change.'
+	    exit 0
+	fi
+fi
+}
+
+# Restore the original gdm3 theme.
+[ "$1" == "--restore" ] && restore
+
+#Define main variables.
+gdm3xml=$(basename "$gdm3Resource").xml
+workDir="/tmp/gdm3-theme"
+
+# Create directories from resource list.
+CreateDirs() {
+for resource in `gresource list "$gdm3Resource~"`; do
+    resource="${resource#\/org\/gnome\/shell\/}"
+    if [ ! -d "$workDir"/"${resource%/*}" ]; then
+      mkdir -p "$workDir"/"${resource%/*}"
+    fi
+done
+}
+
+# Extract resources from binary file.
+ExtractRes() {
+for resource in `gresource list "$gdm3Resource~"`; do
+    gresource extract "$gdm3Resource~" "$resource" > \
+    "$workDir"/"${resource#\/org\/gnome\/shell\/}"
+done
+}
+
+# Compile resources into a gresource binary file.
+CompileMoveRes() {
+glib-compile-resources --sourcedir=$workDir/theme/ $workDir/theme/"$gdm3xml"
+# Move the generated binary file to the gnome-shell folder.
+mv $workDir/theme/gnome-shell-theme.gresource $gdm3Resource
+}
+
+# Check if gresource was sucessfuly moved to its default folder.
+Check() {
+if [ "$?" -eq 0 ]; then
+# Solve a permission change issue (thanks to @huepf from github).
+    chmod 644 "$gdm3Resource"
+    echo 'GDM background sucessfully changed.'
+    # Require reboot to ensure gdm3 is eventually restarted.
+    echo "*** System restart required ***" > /var/run/reboot-required
+else
+    # If something went wrong, restore backup file.
+    echo 'Something went wrong.'
+    restore
+    echo 'No changes were applied.'
+fi
+}
+
+CleanUp() {
+    # Remove temporary directories and files.
+    rm -rf "$workDir"
+    exit 0
+}
+
+# Change background colors.
+# Store selected background color.
+BgColor="#3C3C3C"
+StTextColor="#1D1D1D"
+StBgColor="#F7F7F7"
+
+CreateDirs
+ExtractRes
+
+# Change gdm background to the color you submited.
+oldBg="#lockDialogGroup \{.*?\}"
+# newBg="#lockDialogGroup {
+# background: $BgColor;
+# background-size: cover; }"
+newBg="#lockDialogGroup {
+  background-color: $BgColor; }"
+perl -i -0777 -pe "s/$oldBg/$newBg/s" "$workDir"/theme/gdm.css
+
+# Change gdm text entry background and text colors.
+oldStEntry="StEntry \{.*?\}"
+newStEntry="StEntry {
+  min-height: 22px;
+  border-radius: 6px;
+  padding: 8px;
+  border-width: 1px;
+  color: $StTextColor;
+  background-color: $StBgColor;
+  color: rgba(247, 247, 247, 0.7);
+  border: 1px solid #464646;
+  selection-background-color: #E95420;
+  selected-color: #FFFFFF; }
+  StEntry:hover {
+    background-color: $StBgColor;
+    border-color: #535353;
+    color: $StTextColor; }
+  StEntry:focus {
+    background-color: $StBgColor;
+    border-color: #ef8661;
+    box-shadow: 0 0 0 1px #ef8661 inset;
+    color: $StTextColor; }
+  StEntry:insensitive {
+    background-color: #2c2c2c;
+    border-color: #2c2c2c;
+    color: #8a8a8a; }
+  StEntry StIcon.capslock-warning {
+    icon-size: 16px;
+    warning-color: #f99b11;
+    padding: 0 4px; }
+  StEntry StIcon.peek-password {
+    icon-size: 1.09em;
+    padding: 0 4px; }
+  StEntry StLabel.hint-text {
+    margin-left: 2px;
+    color: rgba(247, 247, 247, 0.7); }; }"
+perl -i -0777 -pe "s/$oldStEntry/$newStEntry/s" "$workDir"/theme/gdm.css
+# StEntry {
+#   min-height: 22px;
+#   border-radius: 6px;
+#   padding: 8px;
+#   border-width: 1px;
+#   color: #F7F7F7;
+#   background-color: #1d1d1d;
+#   color: rgba(247, 247, 247, 0.7);
+#   border: 1px solid #464646;
+#   selection-background-color: #E95420;
+#   selected-color: #FFFFFF; }
+#   StEntry:hover {
+#     background-color: #1d1d1d;
+#     border-color: #535353;
+#     color: #F7F7F7; }
+#   StEntry:focus {
+#     background-color: #1d1d1d;
+#     border-color: #ef8661;
+#     box-shadow: 0 0 0 1px #ef8661 inset;
+#     color: #F7F7F7; }
+#   StEntry:insensitive {
+#     background-color: #2c2c2c;
+#     border-color: #2c2c2c;
+#     color: #8a8a8a; }
+#   StEntry StIcon.capslock-warning {
+#     icon-size: 16px;
+#     warning-color: #f99b11;
+#     padding: 0 4px; }
+#   StEntry StIcon.peek-password {
+#     icon-size: 1.09em;
+#     padding: 0 4px; }
+#   StEntry StLabel.hint-text {
+#     margin-left: 2px;
+#     color: rgba(247, 247, 247, 0.7); }
+
+# Generate the gresource xml file.
+echo '<?xml version="1.0" encoding="UTF-8"?>
+<gresources>
+<gresource prefix="/org/gnome/shell/theme">' > "$workDir"/theme/"$gdm3xml"
+for file in `gresource list "$gdm3Resource~"`; do
+echo "        <file>${file#\/org\/gnome/shell\/theme\/}</file>" \
+>> "$workDir"/theme/"$gdm3xml"
+done
+echo '    </gresource>
+</gresources>' >> "$workDir"/theme/"$gdm3xml"
+
+# Compile and move gresoure.
+CompileMoveRes
+
+# Check if everything was sucessfull.
+Check
+
+# Remove temporary files and exit.
+CleanUp
