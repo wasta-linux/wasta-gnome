@@ -115,6 +115,7 @@ while read -r user; do
     fi
 done <<< "$users"
 
+echo
 echo "*** Need to reboot for changes to take effect."
 echo "*** \"Wasta GNOME\" will be available as an alternative session at the login screen."
 echo
