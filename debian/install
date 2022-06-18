@@ -6,5 +6,6 @@ data/sessions/wasta-gnome.desktop          usr/share/wayland-sessions
 data/sessions/wasta-gnome-wayland.desktop  usr/share/wayland-sessions
 data/sessions/wasta-gnome.desktop          usr/share/xsessions
 data/sessions/wasta-gnome-xorg.desktop     usr/share/xsessions
-data/templates/*                           etc/skel/Templates
-data/wasta-gnome                           usr/share
+wasta-gnome                                usr/share
+wasta-gnome/nautilus-scripts/*             etc/skel/.local/share/nautilus/scripts
+wasta-gnome/templates/*                    etc/skel/Templates

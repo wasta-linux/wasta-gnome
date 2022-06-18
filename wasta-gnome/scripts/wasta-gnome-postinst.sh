@@ -140,8 +140,8 @@ echo
 
 # Update config for existing users.
 users=$(find /home/* -maxdepth 0 -type d | cut -d '/' -f3)
-src_scripts_dir=${DIR}/nautilus-scripts
-src_templates_dir="${DIR}/Templates"
+src_scripts_dir="${DIR}/nautilus-scripts"
+src_templates_dir="${DIR}/templates"
 while read -r user; do
     if [[ $(grep "$user:" /etc/passwd) ]]; then
         # Copy scripts.
@@ -161,12 +161,12 @@ while read -r user; do
 done <<< "$users"
 
 # Update config for future users.
-sys_scripts_dir="/etc/skel/.local/share/nautilus/scripts"
-mkdir --parents "$sys_scripts_dir"
-cp --recursive "${src_scripts_dir}/"* "$sys_scripts_dir"
-sys_templates_dir="/etc/skel/Templates"
-mkdir --parents "$sys_templates_dir"
-cp --recursive "${src_templates_dir}/"* "$sys_templates_dir"
+# sys_scripts_dir="/etc/skel/.local/share/nautilus/scripts"
+# mkdir --parents "$sys_scripts_dir"
+# cp --recursive "${src_scripts_dir}/"* "$sys_scripts_dir"
+# sys_templates_dir="/etc/skel/Templates"
+# mkdir --parents "$sys_templates_dir"
+# cp --recursive "${src_templates_dir}/"* "$sys_templates_dir"
 
 echo
 echo "*** Need to reboot for changes to take effect."
