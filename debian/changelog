@@ -1,3 +1,10 @@
+wasta-gnome (22.04.1.1) jammy; urgency=medium
+
+  * Set default lightdm session to wasta-gnome on xorg.
+  * Remove wasta-login script.
+
+ -- Nate Marti <nate_marti@sil.org>  Sun, 19 Jun 2022 21:30:01 +0100
+
 wasta-gnome (22.04.1) jammy; urgency=medium
 
   * Clean up session list for lightdm login.
