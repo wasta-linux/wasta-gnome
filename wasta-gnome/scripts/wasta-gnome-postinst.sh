@@ -88,26 +88,48 @@ fi
 
 # Get current display manager; accurate even if not yet active after reconfigure.
 display_manager=$(cat /etc/X11/default-display-manager)
-ubuntu_xsession=/usr/share/xsessions/ubuntu.desktop
-ubuntu_wsession=/usr/share/wayland-sessions/ubuntu.desktop
-wasta_gnome_xsession=/usr/share/xsessions/wasta-gnome.desktop
-wasta_gnome_wsession=/usr/share/wayland-sessions/wasta-gnome.desktop
+# ubuntu_xsession=/usr/share/xsessions/ubuntu.desktop
+# ubuntu_wsession=/usr/share/wayland-sessions/ubuntu.desktop
+# wasta_gnome_xsession=/usr/share/xsessions/wasta-gnome.desktop
+# wasta_gnome_wsession=/usr/share/wayland-sessions/wasta-gnome.desktop
+extra_sessions=(
+	/usr/share/xsessions/ubuntu.desktop
+	/usr/share/wayland-sessions/ubuntu.desktop
+	/usr/share/xsessions/wasta-gnome.desktop
+	/usr/share/wayland-sessions/wasta-gnome.desktop
+)
 # Remove extra desktop entries if lightdm is in use.
 if [[ $display_manager == '/usr/sbin/lightdm' ]]; then
-	if [[ -e $ubuntu_session ]]; then
-		mv ${ubuntu_session}{,.disabled}
-	fi
-	if [[ -e $wasta_gnome_session ]]; then
-		mv ${wasta_gnome_session}{,.disabled}
-	fi
+	for s in "${extra_sessions[@]}"; do
+		if [[ -e $s ]]; then
+			mv ${s}{,.disabled}
+		fi
+	done
+	# if [[ -e $ubuntu_session ]]; then
+	# 	mv ${ubuntu_session}{,.disabled}
+	# fi
+	# if [[ -e $wasta_gnome_xsession ]]; then
+	# 	mv ${wasta_gnome_xsession}{,.disabled}
+	# fi
+	# if [[ -e $wasta_gnome_wsession ]]; then
+	# 	mv ${wasta_gnome_wsession}{,.disabled}
+	# fi
 # Re-enable extra desktop entries if other DMs are in use.
 else
-	if [[ -e ${ubuntu_session}.disabled ]]; then
-		mv ${ubuntu_session}{.disabled,}
-	fi
-	if [[ -e ${wasta_gnome_session}.disabled ]]; then
-		mv ${wasta_gnome_session}{.disabled,}
-	fi
+	for s in "${extra_sessions[@]}"; do
+		if [[ -e ${s}.disabled ]]; then
+			mv ${s}{.disabled,}
+		fi
+	done
+	# if [[ -e ${ubuntu_session}.disabled ]]; then
+	# 	mv ${ubuntu_session}{.disabled,}
+	# fi
+	# if [[ -e ${wasta_gnome_xsession}.disabled ]]; then
+	# 	mv ${wasta_gnome_xsession}{.disabled,}
+	# fi
+	# if [[ -e ${wasta_gnome_wsession}.disabled ]]; then
+	# 	mv ${wasta_gnome_wsession}{.disabled,}
+	# fi
 fi
 # Disable gnome-screensaver by default (re-enabled at wasta-gnome session login).
 #if [[ -e /usr/share/dbus-1/services/org.gnome.ScreenSaver.service ]]; then
