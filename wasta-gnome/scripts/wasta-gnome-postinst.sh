@@ -71,27 +71,20 @@ fi
 # Set slick-greeter config.
 if [[ -x /usr/sbin/slick-greeter ]]; then
 	# Add Wasta icon to slick-greeter desktop entries.
-	badges_dir=/usr/share/slick-greeter/badges
-	wasta_gnome_badge=${badges_dir}/wasta-gnome.svg
-	wasta_gnome_wayland_badge=${badges_dir}/wasta-gnome-wayland.svg
-	wasta_gnome_xorg_badge=${badges_dir}/wasta-gnome-xorg.svg
-	if [[ ! -e $wasta_gnome_badge ]]; then
-		cp -l /usr/share/wasta-multidesktop/resources/wl-round-22.svg "$wasta_gnome_badge"
-	fi
-	if [[ ! -e $wasta_gnome_wayland_badge ]]; then
-		cp -l /usr/share/wasta-multidesktop/resources/wl-round-22.svg "$wasta_gnome_wayland_badge"
-	fi
-	if [[ ! -e $wasta_gnome_xorg_badge ]]; then
-		cp -l /usr/share/wasta-multidesktop/resources/wl-round-22.svg "$wasta_gnome_xorg_badge"
-	fi
+	badges=(
+		/usr/share/slick-greeter/badges/wasta-gnome.svg
+		/usr/share/slick-greeter/badges/wasta-gnome-wayland.svg
+		/usr/share/slick-greeter/badges/wasta-gnome-xorg.svg
+	)
+	for badge in "${badges[@]}"; do
+		if [[ ! -e "$badge" ]]; then
+			cp -l /usr/share/wasta-multidesktop/resources/wl-round-22.svg "$badge"
+		fi
+	done
 fi
 
 # Get current display manager; accurate even if not yet active after reconfigure.
 display_manager=$(cat /etc/X11/default-display-manager)
-# ubuntu_xsession=/usr/share/xsessions/ubuntu.desktop
-# ubuntu_wsession=/usr/share/wayland-sessions/ubuntu.desktop
-# wasta_gnome_xsession=/usr/share/xsessions/wasta-gnome.desktop
-# wasta_gnome_wsession=/usr/share/wayland-sessions/wasta-gnome.desktop
 extra_sessions=(
 	/usr/share/xsessions/ubuntu.desktop
 	/usr/share/wayland-sessions/ubuntu.desktop
@@ -105,15 +98,6 @@ if [[ $display_manager == '/usr/sbin/lightdm' ]]; then
 			mv ${s}{,.disabled}
 		fi
 	done
-	# if [[ -e $ubuntu_session ]]; then
-	# 	mv ${ubuntu_session}{,.disabled}
-	# fi
-	# if [[ -e $wasta_gnome_xsession ]]; then
-	# 	mv ${wasta_gnome_xsession}{,.disabled}
-	# fi
-	# if [[ -e $wasta_gnome_wsession ]]; then
-	# 	mv ${wasta_gnome_wsession}{,.disabled}
-	# fi
 # Re-enable extra desktop entries if other DMs are in use.
 else
 	for s in "${extra_sessions[@]}"; do
@@ -121,15 +105,6 @@ else
 			mv ${s}{.disabled,}
 		fi
 	done
-	# if [[ -e ${ubuntu_session}.disabled ]]; then
-	# 	mv ${ubuntu_session}{.disabled,}
-	# fi
-	# if [[ -e ${wasta_gnome_xsession}.disabled ]]; then
-	# 	mv ${wasta_gnome_xsession}{.disabled,}
-	# fi
-	# if [[ -e ${wasta_gnome_wsession}.disabled ]]; then
-	# 	mv ${wasta_gnome_wsession}{.disabled,}
-	# fi
 fi
 # Disable gnome-screensaver by default (re-enabled at wasta-gnome session login).
 #if [[ -e /usr/share/dbus-1/services/org.gnome.ScreenSaver.service ]]; then
