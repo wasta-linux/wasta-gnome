@@ -2557,6 +2557,7 @@ StScrollBar {
   color: #1D1D1D;
   background-color: #F7F7F7; }
 
+/* wasta-gnome */
 .unlock-dialog StEntry {
   border: none !important; }
   .unlock-dialog StEntry, .unlock-dialog StEntry:focus {
@@ -2567,7 +2568,8 @@ StScrollBar {
     color: rgba(247, 247, 247, 0.5);
     background-color: rgba(247, 247, 247, 0.05); }
   .unlock-dialog StEntry StLabel.hint-text {
-    color: rgba(247, 247, 247, 0.7); }
+    /* color: rgba(247, 247, 247, 0.7); } */
+    color: rgba(190, 190, 190, 0.7); }
 
 .unlock-dialog .user-icon {
   background-color: rgba(247, 247, 247, 0.1);
