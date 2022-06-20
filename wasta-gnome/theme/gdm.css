@@ -17,6 +17,26 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin St - Fifth Floor, Boston, MA 02110-1301 USA.
  */
+
+/* Wasta color palette
+ * Wasta-Linux icon:
+ * #000000   black
+ * #00ADD7   light blue
+ * #00B1D5   light blue, tad darker
+ * #404756   dark gray, imperceptibly bluish
+ * #666666   gray, medium
+ * #BEBEBE   gray, light
+ * #FFFFFF   white
+ *
+ * Other colors:
+ * #0073E5   yaru-blue
+ * #1D1D1D   black, tad gray     password text
+ # #BEBEBE   light gray
+ * #EEEEEE   light gray
+ * #3C3C3C   dark gray           gdm background
+ * #F7F7F7   white, tad gray     password background
+ */
+
 /* Global Values */
 stage {
   font-size: 11pt;
