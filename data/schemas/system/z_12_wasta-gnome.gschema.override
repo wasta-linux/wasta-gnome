@@ -27,8 +27,8 @@ use-custom-font = true
 # Categorize app list.
 #   - Any new "folder" has to be listed in "folder-children" and have its own schema.
 #   - The folders are created in a dconf profile in /etc/dconf/profile/
-[org.gnome.desktop.app-folders:wasta-gnome]
-folder-children = ['Graphics', 'AudioVideo', 'Network', 'Office', 'Development', 'System', 'Settings', 'Utility', 'Game', 'Education', 'Wasta']
+# [org.gnome.desktop.app-folders:wasta-gnome]
+# folder-children = ['Graphics', 'AudioVideo', 'Network', 'Office', 'Development', 'System', 'Settings', 'Utility', 'Game', 'Education', 'Wasta']
 
 [org.gnome.desktop.interface:wasta-gnome]
 gtk-theme = 'Yaru-blue'
