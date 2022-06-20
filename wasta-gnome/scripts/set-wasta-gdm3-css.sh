@@ -11,6 +11,63 @@ if [ "$(id -u)" -ne 0 ] ; then
     exit 1
 fi
 
+# Define color scheme:
+AccentBgColor="#EEEEEE"         # light gray; #BEBEBE
+AccentTextColor="3C3C3C"        # dark gray
+BgColor="#3C3C3C"               # dark gray; #404756
+BgColor="#404756"
+LoginTextColor="#1D1D1D"
+LoginBgColor="#F7F7F7"
+LoginHintTextColor="#BEBEBE"
+
+# Wasta-Linux icon:
+# #000000   black
+# #00ADD7   light blue
+# #00B1D5   light blue, tad darker
+# #404756   dark gray, imperceptibly bluish
+# #666666   gray, medium
+# #BEBEBE   gray, light
+# #FFFFFF   white
+
+# Other colors:
+# #1D1D1D   black, tad gray     password text
+# #3C3C3C   dark gray           gdm background
+# #F7F7F7   white, tad gray     password background
+
+# Arc
+#232529
+#2679db
+#3c86de
+#50555e
+#5294e2
+#5c616c
+#5d626e
+#71a7e7
+#9ca9ba
+#b8babf
+#BAC3CF
+#c7c9cd
+#cfd6e6
+#d73549
+#d8dde4
+#dcdfe3
+#e0e4ee
+#e6e6e6
+#ee3239
+#F04A50
+#F27835
+#f47479
+#F5F6F7
+#f7585d
+#fb1106
+#fbfbfb
+#fbfbfc
+#FC4138
+#FCFDFD
+#fd716a
+#ff787d
+#ffffff
+
 # Check what linux distro is being used.
 distro="$(lsb_release -c | cut -f 2)"
 if ! [[ "$distro" =~ (focal|groovy|jammy) ]]; then
@@ -52,12 +109,7 @@ restore () {
 gdm3xml=$(basename "$gdm3Resource").xml
 workDir="/tmp/gdm3-theme"
 
-# Change background colors.
-# Store selected background color.
-BgColor="#3C3C3C"
-LoginTextColor="#1D1D1D"
-LoginBgColor="#F7F7F7"
-
+### Change background colors.
 # Create working dirs.
 for resource in `gresource list "$gdm3Resource~"`; do
     resource="${resource#\/org\/gnome\/shell\/}"
@@ -73,17 +125,22 @@ for resource in `gresource list "$gdm3Resource~"`; do
 done
 
 # Change gdm background to the color you submited.
-oldBg="#lockDialogGroup \{.*?\}"
-newBg="#lockDialogGroup {
-  background-color: $BgColor; }"
-perl -i -0777 -pe "s/$oldBg/$newBg/s" "$workDir"/theme/gdm.css
+# oldBg="#lockDialogGroup \{.*?\}"
+# newBg="#lockDialogGroup {
+#   background-color: $BgColor; }"
+# perl -i -0777 -pe "s/$oldBg/$newBg/s" "$workDir"/theme/gdm.css
+#
+# # Change gdm text entry background and text colors.
+# oldLoginEntry=".login-dialog StEntry \{.*?\}"
+# newLoginEntry=".login-dialog StEntry {
+#   color: $LoginTextColor;
+#   background-color: $LoginBgColor; }
+#   StEntry StLabel.hint-text {
+#     color: $LoginHintTextColor; }"
+# perl -i -0777 -pe "s/$oldLoginEntry/$newLoginEntry/s" "$workDir"/theme/gdm.css
 
-# Change gdm text entry background and text colors.
-oldLoginEntry=".login-dialog StEntry \{.*?\}"
-newLoginEntry=".login-dialog StEntry {
-  color: $LoginTextColor;
-  background-color: $LoginBgColor; }"
-perl -i -0777 -pe "s/$oldLoginEntry/$newLoginEntry/s" "$workDir"/theme/gdm.css
+# Substitute-in custom gdm.css.
+cp "${DIR}/theme/gdm.css" "${workDir}/theme/gdm.css"
 
 # Generate the gresource xml file.
 echo '<?xml version="1.0" encoding="UTF-8"?>
