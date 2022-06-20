@@ -30,6 +30,7 @@ LoginHintTextColor="#BEBEBE"
 # #FFFFFF   white
 
 # Other colors:
+# #0073E5   yaru-blue
 # #1D1D1D   black, tad gray     password text
 # #3C3C3C   dark gray           gdm background
 # #F7F7F7   white, tad gray     password background
