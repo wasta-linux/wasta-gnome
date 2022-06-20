@@ -2659,7 +2659,8 @@ StScrollBar {
 
 /* wasta-gnome */
 #lockDialogGroup {
-  background-color: #404756; }
+  /* background-color: #3C3C3C; } */
+  background-color: #303746; }
 
 #unlockDialogNotifications StButton#vhandle, #unlockDialogNotifications StButton#hhandle {
   background-color: rgba(29, 29, 29, 0.3); }
