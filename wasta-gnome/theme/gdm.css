@@ -366,7 +366,9 @@ StScrollBar {
 
 .popup-menu {
   min-width: 15em;
+  /* wasta-gnome */
   color: #F7F7F7; }
+  /* color: #1D1D1D; } */
   .popup-menu.panel-menu {
     margin-bottom: 1.75em; }
 
@@ -375,7 +377,9 @@ StScrollBar {
   border-radius: 10px;
   border: 1px solid rgba(247, 247, 247, 0.15);
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+  /* wasta-gnome */
   background-color: #1d1d1d; }
+  /* background-color: #F7F7F7; } */
 
 .popup-menu-item {
   padding: 9px 12px;
@@ -2381,8 +2385,10 @@ StScrollBar {
       background-color: #E1E1E1; }
     .login-dialog .modal-dialog-button:focus,
     .unlock-dialog .modal-dialog-button:focus {
-      border-color: #ef8661;
-      box-shadow: inset 0 0 0 1px #ef8661; }
+      /* border-color: #ef8661; */
+      border-color: #0073E5;
+      /* box-shadow: inset 0 0 0 1px #ef8661; } */
+      box-shadow: inset 0 0 0 1px #0073E5; }
     .login-dialog .modal-dialog-button:active,
     .unlock-dialog .modal-dialog-button:active {
       box-shadow: none;
