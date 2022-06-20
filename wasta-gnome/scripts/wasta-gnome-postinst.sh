@@ -65,7 +65,7 @@ EOF
 
 	# Change GDM3 greeter background color.
 	#	Ref: https://github.com/thiggy01/change-gdm-background/blob/master/change-gdm-background
-	/usr/share/wasta-gnome/scripts/set-wasta-gdm3-css.sh
+	. "${DIR}/scripts/set-wasta-gdm3-css.sh"
 fi
 
 # Set slick-greeter config.
@@ -83,29 +83,44 @@ if [[ -x /usr/sbin/slick-greeter ]]; then
 	done
 fi
 
+# Reconfigure wasta-multidesktop so that login sessions are correctly displayed.
+dpkg-reconfigure wasta-multidesktop
+
 # Get current display manager; accurate even if not yet active after reconfigure.
 display_manager=$(cat /etc/X11/default-display-manager)
+# extra_sessions=(
+# 	/usr/share/xsessions/ubuntu.desktop
+# 	/usr/share/wayland-sessions/ubuntu.desktop
+# 	/usr/share/xsessions/wasta-gnome.desktop
+# 	/usr/share/wayland-sessions/wasta-gnome.desktop
+# )
+# # Remove extra desktop entries if lightdm is in use.
+# if [[ $display_manager == '/usr/sbin/lightdm' ]]; then
+# 	for s in "${extra_sessions[@]}"; do
+# 		if [[ -e $s ]]; then
+# 			mv ${s}{,.disabled}
+# 		fi
+# 	done
+# # Re-enable extra desktop entries if other DMs are in use.
+# else
+# 	for s in "${extra_sessions[@]}"; do
+# 		if [[ -e ${s}.disabled ]]; then
+# 			mv ${s}{.disabled,}
+# 		fi
+# 	done
+# fi
 extra_sessions=(
+	/usr/share/xsessions/cinnamon2d.desktop
 	/usr/share/xsessions/ubuntu.desktop
-	/usr/share/wayland-sessions/ubuntu.desktop
-	/usr/share/xsessions/wasta-gnome.desktop
+	/usr/share/xsessions/wasta-gnome-xorg.desktop
+	/usr/share/wayland-sessions/ubuntu-wayland.desktop
 	/usr/share/wayland-sessions/wasta-gnome.desktop
 )
-# Remove extra desktop entries if lightdm is in use.
-if [[ $display_manager == '/usr/sbin/lightdm' ]]; then
-	for s in "${extra_sessions[@]}"; do
-		if [[ -e $s ]]; then
-			mv ${s}{,.disabled}
-		fi
-	done
-# Re-enable extra desktop entries if other DMs are in use.
-else
-	for s in "${extra_sessions[@]}"; do
-		if [[ -e ${s}.disabled ]]; then
-			mv ${s}{.disabled,}
-		fi
-	done
-fi
+for session in "${extra_sessions[@]}"; do
+	if [[ -e $session ]]; then
+		mv ${session}{,.disabled}
+	fi
+done
 # Disable gnome-screensaver by default (re-enabled at wasta-gnome session login).
 #if [[ -e /usr/share/dbus-1/services/org.gnome.ScreenSaver.service ]]; then
 #    mv /usr/share/dbus-1/services/org.gnome.ScreenSaver.service{,.disabled}
