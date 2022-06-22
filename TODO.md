@@ -1,8 +1,11 @@
+- [ ] Take a look at extension "arcmenu" (maybe make available as a separate package?).
+- [x] Fix password hint color on GDM login screen (to Yaru-blue).
 - Update GNOME-related packages (gnome-shell v42) when functional (use debs if available, otherwise zips):
-  - [x] Nautilus Scripts [was filemanager-actions (deb-only)] << needs testing
+  - [x] Nautilus Scripts
     - Nautilus Scripts seems like an okay replacement, but only supports user-level scripts.
     - https://help.ubuntu.com/community/NautilusScriptsHowto
     - They would have to be installed in all existing users, as well as in /etc/skel.
+  - [x] alphabetical-app-grid (2022-06-21: custom DEB, ext. v24)
   - [x] applications-overview-tooltip (2022-05-18: custom DEB, ext. v14)
   - [x] click-to-close-overview (2022-06-13: custom DEB, ext. ext. v6)
   - [x] dash-to-panel (2022-04-20: custom DEB v43, ext. v48)
@@ -17,7 +20,7 @@
 - Enable support for Wayland
   - [x] add proper .desktop file to /usr/share/wayland-sessions
   - [x] ensure that /etc/gdm3/custom.conf does not have WaylandEnable=false
-  - [ ] test installation after installing wasta-cinnamon
+  - [x] test installation after installing wasta-cinnamon
 
 ### Tests
 1. Verify that extensions work.
