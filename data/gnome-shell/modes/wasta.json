@@ -2,6 +2,7 @@
     "parentMode": "user",
     "debugFlags": ["backtrace-crashes-all"],
     "enabledExtensions": [
+        "AlphabeticalAppGrid@stuarthayhurst",
         "applications-overview-tooltip@RaphaelRochet",
         "click-to-close-overview@l3nn4rt.github.io",
         "dash-to-panel@jderose9.github.com",
