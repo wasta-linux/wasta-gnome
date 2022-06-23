@@ -1,3 +1,9 @@
+wasta-gnome (22.04.1.3) jammy; urgency=medium
+
+  * Update lightdm icon.
+
+ -- Nate Marti <nate_marti@sil.org>  Mon, 20 Jun 2022 18:18:01 +0100
+
 wasta-gnome (22.04.1.2) jammy; urgency=medium
 
   * Update login screen background and button colors.

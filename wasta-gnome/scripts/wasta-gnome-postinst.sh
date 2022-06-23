@@ -7,8 +7,6 @@
 #       installation of wasta-gnome. It can be manually re-run, but
 #       is only intended to be run at package installation.
 #
-#   2020-07-22 ndm: initial script
-#
 # ==============================================================================
 
 # ------------------------------------------------------------------------------
@@ -27,12 +25,13 @@ fi
 # ------------------------------------------------------------------------------
 # Initial setup
 # ------------------------------------------------------------------------------
-echo
-echo "*** Script Entry: wasta-gnome-postinst.sh"
-echo
-
 # Setup Directory for later reference
 DIR=/usr/share/wasta-gnome
+SCRIPT="$(basename $0)"
+
+echo
+echo "*** Script Entry: $SCRIPT"
+echo
 
 # ------------------------------------------------------------------------------
 # General initial config
@@ -65,7 +64,7 @@ EOF
 
 	# Change GDM3 greeter background color.
 	#	Ref: https://github.com/thiggy01/change-gdm-background/blob/master/change-gdm-background
-	. "${DIR}/scripts/set-wasta-gdm3-css.sh"
+	source "${DIR}/scripts/set-wasta-gdm3-css.sh"
 fi
 
 # Set slick-greeter config.
@@ -74,11 +73,10 @@ if [[ -x /usr/sbin/slick-greeter ]]; then
 	badges=(
 		/usr/share/slick-greeter/badges/wasta-gnome.svg
 		/usr/share/slick-greeter/badges/wasta-gnome-wayland.svg
-		/usr/share/slick-greeter/badges/wasta-gnome-xorg.svg
 	)
 	for badge in "${badges[@]}"; do
 		if [[ ! -e "$badge" ]]; then
-			cp -l /usr/share/wasta-multidesktop/resources/wl-round-22.svg "$badge"
+			cp -l "${DIR}/images/wl-22-yaru-blue.svg" "$badge"
 		fi
 	done
 fi
@@ -86,35 +84,11 @@ fi
 # Reconfigure wasta-multidesktop so that login sessions are correctly displayed.
 dpkg-reconfigure wasta-multidesktop
 
-# Get current display manager; accurate even if not yet active after reconfigure.
-display_manager=$(cat /etc/X11/default-display-manager)
-# extra_sessions=(
-# 	/usr/share/xsessions/ubuntu.desktop
-# 	/usr/share/wayland-sessions/ubuntu.desktop
-# 	/usr/share/xsessions/wasta-gnome.desktop
-# 	/usr/share/wayland-sessions/wasta-gnome.desktop
-# )
-# # Remove extra desktop entries if lightdm is in use.
-# if [[ $display_manager == '/usr/sbin/lightdm' ]]; then
-# 	for s in "${extra_sessions[@]}"; do
-# 		if [[ -e $s ]]; then
-# 			mv ${s}{,.disabled}
-# 		fi
-# 	done
-# # Re-enable extra desktop entries if other DMs are in use.
-# else
-# 	for s in "${extra_sessions[@]}"; do
-# 		if [[ -e ${s}.disabled ]]; then
-# 			mv ${s}{.disabled,}
-# 		fi
-# 	done
-# fi
+# Remove extra desktop entries for lightdm.
 extra_sessions=(
 	/usr/share/xsessions/cinnamon2d.desktop
 	/usr/share/xsessions/ubuntu.desktop
-	/usr/share/xsessions/wasta-gnome-xorg.desktop
 	/usr/share/wayland-sessions/ubuntu-wayland.desktop
-	/usr/share/wayland-sessions/wasta-gnome.desktop
 )
 for session in "${extra_sessions[@]}"; do
 	if [[ -e $session ]]; then
@@ -175,7 +149,7 @@ echo "*** System restart required ***" > /var/run/reboot-required
 # Finished
 # ------------------------------------------------------------------------------
 echo
-echo "*** Script Exit: wasta-gnome-postinst.sh"
+echo "*** Script Exit: $SCRIPT"
 echo
 
 exit 0
