@@ -75,13 +75,20 @@ if [[ -x /usr/sbin/slick-greeter ]]; then
 		/usr/share/slick-greeter/badges/wasta-gnome-wayland.svg
 	)
 	for badge in "${badges[@]}"; do
-		if [[ ! -e "$badge" ]]; then
+		if [[ ! -L "$badge" ]]; then
+			# This badge might be a hardlink to the previous wasta-gnome badge.
+			rm -f "$badge"
+			# NOTE: If some user happens to want to use their own badge image,
+			#	then they should create a symlink in /usr/share/slick-greeter/badges/$badge
+			#	to their chosen file, otherwise an update to wasta-gnome will
+			#	override it.
 			cp -l "${DIR}/images/wl-22-yaru-blue.svg" "$badge"
 		fi
 	done
 fi
 
-# Reconfigure wasta-multidesktop so that login sessions are correctly displayed.
+# Reconfigure wasta-multidesktop so that correct login sessions are displayed
+#	and redundant ones are disabled.
 dpkg-reconfigure wasta-multidesktop
 
 # Remove extra desktop entries for lightdm.
