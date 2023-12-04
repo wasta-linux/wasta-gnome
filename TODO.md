@@ -1,10 +1,15 @@
-- [ ] Take a look at extension "arcmenu" (maybe make available as a separate package?).
+- [ ] Reconfigure gdm3 during postint so the user can choose between gdm/lightdm.
+- [ ] Add a screensaver (light-locker? gnome-screensaver?)
+- [ ] Set /org/gnome/desktop/interface/gtk-theme to "Arc-Darker"
+  - Set gnome-terminal color palette to match wasta-cinnamon's
+- [ ] Set "default" gdm session to Wasta GNOME?
 - [x] Fix password hint color on GDM login screen (to Yaru-blue).
 - Update GNOME-related packages (gnome-shell v42) when functional (use debs if available, otherwise zips):
   - [x] Nautilus Scripts
     - Nautilus Scripts seems like an okay replacement, but only supports user-level scripts.
     - https://help.ubuntu.com/community/NautilusScriptsHowto
-    - They would have to be installed in all existing users, as well as in /etc/skel.
+    - They would have to be installed in all existing users, as well as in /etc/skel; e.g.
+      - `$ find /usr/share/nemo/actions -type f -perm -001 -exec cp {} $HOME/.local/share/nautilus/scripts/ \;`
   - [x] alphabetical-app-grid (2022-06-21: custom DEB, ext. v24)
   - [x] applications-overview-tooltip (2022-05-18: custom DEB, ext. v14)
   - [x] click-to-close-overview (2022-06-13: custom DEB, ext. ext. v6)
@@ -24,8 +29,6 @@
 
 ### Tests
 1. Verify that extensions work.
-  - applications-overview-tooltip
-    - hover mouse over app icons in the apps overlay to see tooltip
   - dash-to-panel
     - verify that dash+panel appears on bottom
     - verify that Wasta logo and default favorites appear in panel
@@ -37,7 +40,5 @@
     - use ```notify-send "test"``` command
   - ubuntu-appindicators
     - launch zim [?] to see if indicator appears
-  - window-is-ready-remover
-    - open an app window and verify that no "_ is ready" popup appears
 1. Verify that Wasta GNOME dconf customizations are applied.
   - verify blue underline for app icons, e.g.
