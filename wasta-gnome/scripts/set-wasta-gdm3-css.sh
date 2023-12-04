@@ -13,7 +13,7 @@ fi
 
 # Check what linux distro is being used.
 distro="$(lsb_release -c | cut -f 2)"
-if ! [[ "$distro" =~ (focal|groovy|jammy) ]]; then
+if ! [[ "$distro" =~ (focal|groovy|jammy|noble) ]]; then
     echo 'Sorry, this script only works with focal, groovy, or jammy distros.'
     exit 1
 fi
@@ -54,7 +54,7 @@ workDir="/tmp/gdm3-theme"
 
 ### Change background colors.
 # Create working dirs.
-for resource in `gresource list "$gdm3Resource~"`; do
+for resource in $(gresource list "$gdm3Resource~"); do
     resource="${resource#\/org\/gnome\/shell\/}"
     if [ ! -d "$workDir"/"${resource%/*}" ]; then
       mkdir -p "$workDir"/"${resource%/*}"
@@ -62,7 +62,7 @@ for resource in `gresource list "$gdm3Resource~"`; do
 done
 
 # Extract resources into working dirs.
-for resource in `gresource list "$gdm3Resource~"`; do
+for resource in $(gresource list "$gdm3Resource~"); do
     gresource extract "$gdm3Resource~" "$resource" > \
     "$workDir"/"${resource#\/org\/gnome\/shell\/}"
 done
@@ -81,7 +81,7 @@ cp "${DIR}/theme/gdm.css" "${workDir}/theme/gdm.css"
 echo '<?xml version="1.0" encoding="UTF-8"?>
 <gresources>
 <gresource prefix="/org/gnome/shell/theme">' > "$workDir"/theme/"$gdm3xml"
-for file in `gresource list "$gdm3Resource~"`; do
+for file in $(gresource list "$gdm3Resource~"); do
 echo "        <file>${file#\/org\/gnome/shell\/theme\/}</file>" \
 >> "$workDir"/theme/"$gdm3xml"
 done

@@ -3,13 +3,11 @@
     "debugFlags": ["backtrace-crashes-all"],
     "enabledExtensions": [
         "AlphabeticalAppGrid@stuarthayhurst",
-        "applications-overview-tooltip@RaphaelRochet",
-        "click-to-close-overview@l3nn4rt.github.io",
         "dash-to-panel@jderose9.github.com",
         "ding@rastersoft.com",
         "drive-menu@gnome-shell-extensions.gcampax.github.com",
         "notification-banner-reloaded@marcinjakubowski.github.com",
         "ubuntu-appindicators@ubuntu.com",
-        "windowIsReady_Remover@nunofarruca@gmail.com"
+        "tiling-assistant@ubuntu.com"
     ]
 }

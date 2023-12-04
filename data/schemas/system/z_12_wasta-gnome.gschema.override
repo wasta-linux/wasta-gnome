@@ -6,8 +6,6 @@
 #   After modifying these .override files, reload with:
 #       glib-compile-schemas /usr/share/glib-2.0/schemas/
 #
-#   2020-07-22 ndm: initial settings for focal.
-#
 # ==============================================================================
 
 ### IBus ###
@@ -24,17 +22,11 @@ use-custom-font = true
 
 
 ### GNOME Desktop ###
-# Categorize app list.
-#   - Any new "folder" has to be listed in "folder-children" and have its own schema.
-#   - The folders are created in a dconf profile in /etc/dconf/profile/
-# [org.gnome.desktop.app-folders:wasta-gnome]
-# folder-children = ['Graphics', 'AudioVideo', 'Network', 'Office', 'Development', 'System', 'Settings', 'Utility', 'Game', 'Education', 'Wasta']
-
 [org.gnome.desktop.interface:wasta-gnome]
+enable-hot-corners = false
 gtk-theme = 'Yaru-blue'
 icon-theme = 'Yaru-blue'
 show-battery-percentage = true
-enable-hot-corners = false
 
 [org.gnome.desktop.peripherals.touchpad:wasta-gnome]
 click-method = 'fingers'
@@ -55,35 +47,36 @@ theme-name = 'freedesktop'
 # Make Alt-Tab switch between windows instead of apps.
 [org.gnome.desktop.wm.keybindings:wasta-gnome]
 show-desktop = ['<Primary><Super>d', '<Primary><Alt>d', '<Super>d']
-switch-applications = []
-switch-applications-backward = []
+#switch-applications = []
+#switch-applications-backward = []
 switch-windows = ['<Alt>Tab']
 switch-windows-backward = ['<Alt><Shift>Tab']
 
 [org.gnome.desktop.wm.preferences:wasta-gnome]
-button-layout = ':minimize,maximize,close'
 action-middle-click-titlebar = 'lower'
+button-layout = ':minimize,maximize,close'
+focus-new-windows = 'smart' # removes "_ is ready" notification?
 
 [org.gnome.eog.ui:wasta-gnome]
 sidebar = false
 
-[org.gnome.Epiphany:wasta-gnome]
-default-search = 'DuckDuckGo'
+#[org.gnome.Epiphany:wasta-gnome]
+#default-search = 'DuckDuckGo'
 
 
 ### Mutter Preferences ###
 [org.gnome.mutter:wasta-gnome]
 attach-modal-dialogs = true
 center-new-windows = true
-edge-tiling = true
 dynamic-workspaces = true
-workspaces-only-on-primary = true
+edge-tiling = true
 focus-change-on-pointer-rest = true
+workspaces-only-on-primary = true
 
 
 ### Nautilus Preferences ###
 # Sort folders first (Nautilus refers to FileChooser dialog).
-[org.gtk.Settings.FileChooser:wasta-gnome]
+[org.gtk.settings.file-chooser:wasta-gnome]
 sort-directories-first = true
 
 [org.gnome.nautilus.icon-view:wasta-gnome]
@@ -97,9 +90,9 @@ show-hidden-files = false
 # thumbnail-limit is measured in B in Nemo, MB in nautilus
 thumbnail-limit = uint64 4
 
-[org.gnome.nautilus.window-state:wasta-gnome]
-sidebar-width = 200
-start-with-sidebar = true
+#[org.gnome.nautilus.window-state:wasta-gnome]
+#sidebar-width = 200
+#start-with-sidebar = true
 
 
 ### Settings-Daemon  ###
@@ -118,8 +111,9 @@ sleep-inactive-battery-timeout = 1800
 [org.gnome.shell:wasta-gnome]
 favorite-apps = ['shutdown-for-wasta-gnome.desktop', 'firefox.desktop', 'org.gnome.Nautilus.desktop', 'libreoffice-writer.desktop', 'wasta-backup.desktop', 'wasta-resources.desktop']
 
-[org.gnome.shell.extensions.applications-overview-tooltip:wasta-gnome]
-borders = false
+# Not needed in 24.04 b/c the dash expands the full name on hover.
+#[org.gnome.shell.extensions.applications-overview-tooltip:wasta-gnome]
+#borders = false
 
 [org.gnome.shell.extensions.dash-to-panel:wasta-gnome]
 appicon-margin = 4
@@ -134,18 +128,19 @@ focus-highlight-color = '#1e90ff'
 focus-highlight-opacity = 40
 hot-keys = true
 multi-monitors = false
-peek-mode-opacity = 0
-preview-custom-opacity = 0
-scroll-panel-action = 'CHANGE_VOLUME'
+overview-click-to-exit = true
+#peek-mode-opacity = 0
+#preview-custom-opacity = 0
+#scroll-panel-action = 'CHANGE_VOLUME'
 show-apps-icon-file = '/usr/share/icons/hicolor/scalable/emblems/wasta-linux-main-menu.svg'
 show-apps-icon-side-padding = 16
-showdesktop-button-width = 8
+#showdesktop-button-width = 8
 #show-showdesktop-button = true            # not in debian package (v45-1)
-show-showdesktop-time = 500
+#show-showdesktop-time = 500
 show-favorites-all-monitors = false
 show-showdesktop-hover = true
 #show-status-menu-all-monitors = false     # not in debian package (v45-1)
-status-icon-padding = 2
+#status-icon-padding = 2
 trans-bg-color = '#30343a'
 trans-dynamic-anim-target = 0.9
 trans-panel-opacity = 0.7
@@ -158,25 +153,22 @@ window-preview-show-title = true
 window-preview-size = 200
 
 [org.gnome.shell.extensions.ding:wasta-gnome]
+arrange-order = 'NAME'
 icon-size = 'small'
 show-home = false
 show-trash = false
 start-corner = 'top-left'
 
-#[org.gnome.shell.extensions.panel-osd:wasta-gnome] # not available in jammy
-#x-pos = 100.0
-#y-pos = 5.0
-
 [org.gnome.shell.extensions.notification-banner-reloaded:wasta-gnome]
 anchor-horizontal = 1
 anchor-vertical = 1
-animation-direction = 3
+animation-direction = 1
 
 # Open dash to app list.
-[org.gnome.mutter:wasta-gnome]
+#[org.gnome.mutter:wasta-gnome]
 #overlay-key = ''
-[org.gnome.shell.keybindings:wasta-gnome]
+#[org.gnome.shell.keybindings:wasta-gnome]
 #toggle-application-view = ['Super_L']
 
-[org.gnome.shell.overrides:wasta-gnome]
-edge-tiling = true
+#[org.gnome.shell.overrides:wasta-gnome]
+#edge-tiling = true

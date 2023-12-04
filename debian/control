@@ -10,20 +10,18 @@ Package: wasta-gnome
 Architecture: all
 Depends: gdm3,
  gnome-shell,
- gnome-shell-extension-alphabetical-app-grid,
+ gnome-shell-extension-alphabetical-grid,
  gnome-shell-extension-appindicator,
- gnome-shell-extension-applications-overview-tooltip,
- gnome-shell-extension-click-to-close-overview,
- gnome-shell-extension-dash-to-panel (>= 43),
+ gnome-shell-extension-dash-to-panel,
  gnome-shell-extension-desktop-icons-ng,
  gnome-shell-extension-drive-menu | gnome-shell-extensions,
  gnome-shell-extension-notification-banner-reloaded,
- gnome-shell-extension-window-is-ready-remover,
+ gnome-shell-extension-ubuntu-tiling-assistant,
  libglib2.0-dev-bin,
  nautilus,
  nautilus-image-converter,
  wasta-multidesktop,
  ${misc:Depends}
 Recommends: bookletimposer
-Description: Wasta-Linux GNOME for Ubuntu 22.04 Jammy
- Wasta-Linux 22.04 Jammy GNOME core configuration.
+Description: Wasta-Linux GNOME for Ubuntu 24.04 Noble
+ Wasta-Linux 24.04 Noble GNOME core configuration.

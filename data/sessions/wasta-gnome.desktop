@@ -6,4 +6,4 @@ TryExec=/usr/bin/gnome-shell
 Type=Application
 DesktopNames=wasta-gnome:ubuntu:GNOME
 X-GDM-SessionRegisters=true
-X-Ubuntu-Gettext-Domain=gnome-session-3.0
+X-Ubuntu-Gettext-Domain=gnome-session-45
