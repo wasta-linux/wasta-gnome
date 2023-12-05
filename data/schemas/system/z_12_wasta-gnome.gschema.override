@@ -55,7 +55,7 @@ switch-windows-backward = ['<Alt><Shift>Tab']
 [org.gnome.desktop.wm.preferences:wasta-gnome]
 action-middle-click-titlebar = 'lower'
 button-layout = ':minimize,maximize,close'
-focus-new-windows = 'smart' # removes "_ is ready" notification?
+focus-new-windows = 'smart'
 
 [org.gnome.eog.ui:wasta-gnome]
 sidebar = false
@@ -153,7 +153,7 @@ window-preview-show-title = true
 window-preview-size = 200
 
 [org.gnome.shell.extensions.ding:wasta-gnome]
-arrange-order = 'NAME'
+arrangeorder = 'NAME'
 icon-size = 'small'
 show-home = false
 show-trash = false
