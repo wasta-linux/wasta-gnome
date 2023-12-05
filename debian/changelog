@@ -1,3 +1,9 @@
+wasta-gnome (24.04.1) noble; urgency=medium
+
+  * Fix 2 gschema override syntax errors.
+
+ -- Nate Marti <nate_marti@sil.org>  Tue, 05 Dec 2023 11:39:42 +0100
+
 wasta-gnome (24.04) noble; urgency=medium
 
   * Initial release.
